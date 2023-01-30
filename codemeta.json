@@ -1,0 +1,40 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "license": "https://spdx.org/licenses/BSD-3-Clause-LBNL",
+  "codeRepository": "git+https://github.com/caltechlibrary/simplified",
+  "dateCreated": "2023-01-30",
+  "issueTracker": "git+https://github.com/caltechlibrary/simplified/issues",
+  "name": "simplified",
+  "description": "A intermediate metadata model implemented as a Go package for migrating content from EPrints 3.3 to Invenio-RDM 11.",
+  "developmentStatus": "concept",
+  "keywords": [
+    "library",
+    "archives",
+    "metadata"
+  ],
+  "programmingLanguage": [
+    "Go"
+  ],
+  "operatingSystem": [
+    "Linux",
+    "Windows",
+    "macOS"
+  ],
+  "softwareRequirements": [
+    "Go v1.19"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "R. S.",
+      "familyName": "Doiel",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Caltech Library"
+      },
+      "email": "rsdoiel@caltech.edu",
+      "@id": "https://orcid.org/0000-0003-0900-6903"
+    }
+  ]
+}
