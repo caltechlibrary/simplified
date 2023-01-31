@@ -8,6 +8,7 @@
   "name": "simplified",
   "description": "A intermediate metadata model implemented as a Go package for migrating content from EPrints 3.3 to Invenio-RDM 11.",
   "developmentStatus": "concept",
+  "version": "0.0.1",
   "keywords": [
     "library",
     "archives",

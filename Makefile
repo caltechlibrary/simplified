@@ -8,11 +8,11 @@ VERSION = $(shell grep '"version":' codemeta.json | cut -d\"  -f 4)
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
 
-MAN_PAGES = eprintxml2simple.1 
+MAN_PAGES = simplified2markdown.1 
 
 PROGRAMS = $(shell ls -1 cmd)
 
-PACKAGE = $(shell ls -1 *.go cleaner/*.go clsrules/*.go)
+PACKAGE = $(shell ls -1 *.go)
 
 PANDOC = $(shell which pandoc)
 
@@ -44,7 +44,7 @@ version.go: .FORCE
 	@echo 'const (' >>version.go
 	@echo '    Version = "$(VERSION)"' >>version.go
 	@echo '' >>version.go
-	@echo 'LicenseText = `' >>version.go
+	@echo '    LicenseText = `' >>version.go
 	@cat LICENSE >>version.go
 	@echo '`' >>version.go
 	@echo ')' >>version.go
