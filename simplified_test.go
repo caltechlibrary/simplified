@@ -74,7 +74,9 @@ func TestSimplifiedRecord(t *testing.T) {
                             {"scheme": "orcid", "identifier": "0000-0001-8135-3489"}
                         ]
                     },
-                    "role": {"id": "other"},
+                    "role": { 
+                        "id": "other"
+                    },
                     "affiliations": [{"id": "cern"}]
                 }
             ],
