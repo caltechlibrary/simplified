@@ -16,7 +16,6 @@
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package simplified
 
-
 /**
  * simplified.go implements an intermediate metadata representation
  * suitable for moving data between EPrints 3.3 and Invenio-RDM 11.
@@ -171,8 +170,15 @@ type Embargo struct {
 // Creator of a record's object
 type Creator struct {
 	PersonOrOrg  *PersonOrOrg   `json:"person_or_org,omitempty"` // The person or organization.
-	Role         string         `json:"role,omitempty"`          // The role of the person or organization selected from a customizable controlled vocabularly.
+	Role         *Role          `json:"role,omitempty"`          // The role of the person or organization selected from a customizable controlled vocabularly.
 	Affiliations []*Affiliation `json:"affiliations,omitempty"`  // Affiliations if `PersonOrOrg.Type` is personal.
+}
+
+// Role is an object describing a relationship to authorship
+type Role struct {
+	ID    string            `josn:"id,omitempty"`
+	Title string            `jjson:"title,omitempty"`
+	Props map[string]string `json:"props,omitempty"`
 }
 
 // PersonOrOrg holds either a person or corporate entity information
@@ -237,10 +243,10 @@ type Description struct {
 // be supported at the same end point. I.e. they both must be unique
 // with in their set of field values.
 type Right struct {
-	ID          string `json:"id,omitempty"`          // Identifier value
-	Title       string `json:"title,omitempty"`       // Localized human readable title e.g., `{"en": "The ACME Corporation License."}`.
-	Description string `json:"description,omitempty"` // Localized license description text e.g., `{"en":"This license ..."}`.
-	Link        string `json:"link,omitempty"`        // Link to full license.
+	ID          string       `json:"id,omitempty"`          // Identifier value
+	Title       *TitleDetail `json:"title,omitempty"`       // Localized human readable title e.g., `{"en": "The ACME Corporation License."}`.
+	Description *Description `json:"description,omitempty"` // Localized license description text e.g., `{"en":"This license ..."}`.
+	Link        string       `json:"link,omitempty"`        // Link to full license.
 }
 
 // Subject element holds one of a list of subjects
@@ -259,7 +265,7 @@ type DateType struct {
 
 // Funder holds funding information for funding organizations in Metadata
 type Funder struct {
-	Funder    []*Identifier `json:"funder,omitempty"`
+	Funder    *Identifier   `json:"funder,omitempty"`
 	Award     *Identifier   `json:"award,omitempty"`
 	Reference []*Identifier `json:"references,omitempty"`
 }
