@@ -8,7 +8,7 @@ VERSION = $(shell grep '"version":' codemeta.json | cut -d\"  -f 4)
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
 
 
-MAN_PAGES = simplified2markdown.1 
+MAN_PAGES = simple2markdown.1 
 
 PROGRAMS = $(shell ls -1 cmd)
 

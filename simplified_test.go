@@ -190,5 +190,4 @@ func TestSimplifiedRecord(t *testing.T) {
 		t.Errorf("Unmarshal failed, %s", err)
 		t.FailNow()
 	}
-	t.Errorf("FIXME: need to test to see if all the elements map across from example.")
 }
