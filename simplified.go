@@ -29,6 +29,7 @@ package simplified
 
 import (
 	"encoding/json"
+	"strings"
 	"time"
 )
 
@@ -38,10 +39,10 @@ import (
 
 // Record implements the top level Invenio 3 record structure
 type Record struct {
-	Schema string                 `json:"$schema,omitempty"`
-	ID     string                 `json:"id"`            // Interneral persistent identifier for a specific version.
+	Schema string `json:"$schema,omitempty"`
+	ID     string `json:"id"` // Interneral persistent identifier for a specific version.
 	//PID    map[string]interface{} `json:"pid,omitempty"` // Interneral persistent identifier for a specific version.
-	Parent *RecordIdentifier      `json:"parent,omitempty"`
+	Parent *RecordIdentifier `json:"parent,omitempty"`
 	// The internal persistent identifier for ALL versions.
 	ExternalPIDs map[string]*PersistentIdentifier `json:"pids,omitempty"`      // System-managed external persistent identifiers (DOI, Handles, OAI-PMH identifiers)
 	RecordAccess *RecordAccess                    `json:"access,omitempty"`    // Access control for record
@@ -94,7 +95,7 @@ type Metadata struct {
 	Rights                 []*Right             `json:"rights,omitempty"`
 	Contributors           []*Creator           `json:"contributors,omitempty"`
 	Subjects               []*Subject           `json:"subjects,omitempty"`
-	Languages              []*map[string]string `json:"languages,omitempty"`
+	Languages              []map[string]string `json:"languages,omitempty"`
 	Dates                  []*DateType          `json:"dates,omitempty"`
 	Version                string               `json:"version,omitempty"`
 	Publisher              string               `json:"publisher,omitempty"`
@@ -110,13 +111,13 @@ type Metadata struct {
 
 // Files
 type Files struct {
-	Enabled        bool                    `json:"enabled,omitempty"`
-	Entries        map[string]*Entry       `json:"entries,omitempty"`
-	DefaultPreview string                  `json:"default_preview,omitempty"`
-	Sizes          []string                `json:"sizes,omitempty"`
-	Formats        []string                `json:"formats,omitempty"`
-	Order          []string                `json:"order,omitempty"`
-	Locations      map[string]*interface{} `json:"locations,omitempty"`
+	Enabled        bool              `json:"enabled,omitempty"`
+	Entries        map[string]*Entry `json:"entries,omitempty"`
+	DefaultPreview string            `json:"default_preview,omitempty"`
+	Sizes          []string          `json:"sizes,omitempty"`
+	Formats        []string          `json:"formats,omitempty"`
+	Order          []string          `json:"order,omitempty"`
+	Locations      *Location         `json:"locations,omitempty"`
 }
 
 type Entry struct {
@@ -129,6 +130,22 @@ type Entry struct {
 	MimeType     string `json:"mimetype,omitempty"`
 	Size         int    `json:"size,omitempty"`
 	CheckSum     string `json:"checksum,omitempty"`
+}
+
+type Location struct {
+	Feature []*Feature `json:"feature,omitempty"`
+}
+
+type Feature struct {
+	Geometry    *Geometry     `json:"geometry,omitempty"`
+	Identifiers []*Identifier `json:"identifiers,omitempty"`
+	Place       string        `json:"place,omitempty"`
+	Description string        `json:"description,omitempty"`
+}
+
+type Geometry struct {
+	Type        string   `json:"type,omitempty"`
+	Coordinates []float64 `json:"coordinates,omitempty"`
 }
 
 // Tombstone
@@ -172,7 +189,7 @@ type Embargo struct {
 // Creator of a record's object
 type Creator struct {
 	PersonOrOrg *PersonOrOrg `json:"person_or_org,omitempty"` // The person or organization.
-	Role         *Role          `json:"role,omitempty"`          // The role of the person or organization selected from a customizable controlled vocabularly.
+	Role        *Role        `json:"role,omitempty"`          // The role of the person or organization selected from a customizable controlled vocabularly.
 	//	Affiliations []*Affiliation `json:"affiliations,omitempty"`  // Affiliations if `PersonOrOrg.Type` is personal.
 }
 
@@ -295,3 +312,1132 @@ func (rec *Record) ToString() []byte {
 	src, _ := json.MarshalIndent(rec, "", "    ")
 	return src
 }
+
+//
+// Utility methods and functions
+//
+
+func (rec *Record) IsSame(t *Record) bool {
+	if rec == nil && t == nil {
+		return true
+	}
+	if rec == nil || t == nil {
+		return false
+	}
+	if rec.Schema != t.Schema {
+		return false
+	}
+	if rec.ID != t.ID {
+		return false
+	}
+	if !rec.Parent.IsSame(t.Parent) {
+		return false
+	}
+	if! mapStringPersistentIdentifierIsSame(rec.ExternalPIDs,t.ExternalPIDs) {
+		return false
+	}
+	if !rec.RecordAccess.IsSame(t.RecordAccess) {
+		return false
+	}
+	if !rec.Metadata.IsSame(t.Metadata) {
+		return false
+	}
+	if !rec.Files.IsSame(t.Files) {
+		return false
+	}
+	if !rec.Tombstone.IsSame(t.Tombstone) {
+		return false
+	}
+	if rec.Created != t.Created {
+		return false
+	}
+	if rec.Updated != t.Updated {
+		return false
+	}
+	// NOTE: The simplified Record has an Annotations field, this isn't
+	// documented in RDM so not checking it.
+	return true
+}
+
+func mapStringPersistentIdentifierIsSame(m1 map[string]*PersistentIdentifier, m2 map[string]*PersistentIdentifier) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	// Check all the keys/values from m1 against m2
+	for k, val1 := range m1 {
+		if val2, ok := m2[k]; ok {
+			if val1.IsSame(val2) {
+				return false
+			}
+		} else {
+			return false
+		}
+	}
+	// Now look for missing keys in m1, return false if found.
+	for k, _ := range m2 {
+		if _, ok := m1[k]; !ok {
+			return false
+		}
+	}
+	return true
+}
+
+func (pi *PersistentIdentifier) IsSame(t *PersistentIdentifier) bool {
+	if pi == nil && t == nil {
+		return true
+	}
+	if pi == nil || t == nil {
+		return false
+	}
+	if pi.Identifier != t.Identifier {
+		return false
+	}
+	if pi.Provider != t.Provider {
+		return false
+	}
+	if pi.Client != t.Client {
+		return false
+	}
+	return true
+}
+
+func (ri *RecordIdentifier) IsSame(t *RecordIdentifier) bool {
+	if ri == nil && t == nil {
+		return true
+	}
+	if ri == nil || t == nil {
+		return false
+	}
+	if ri.ID != t.ID {
+		return false
+	}
+	if !ri.Access.IsSame(t.Access) {
+		return false
+	}
+	return true
+}
+
+func (ra *RecordAccess) IsSame(t *RecordAccess) bool {
+	if ra == nil && t == nil {
+		return true
+	}
+	if ra == nil || t == nil {
+		return false
+	}
+	if ra.Record != t.Record {
+		return false
+	}
+	if ra.Files != t.Files {
+		return false
+	}
+	if !ra.Embargo.IsSame(t.Embargo) {
+		return false
+	}
+	return true
+}
+
+func mapStringStringIsSame(m1 map[string]string, m2 map[string]string) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	// Check all the keys/values from m1 against m2
+	for k, val1 := range m1 {
+		if val2, ok := m2[k]; ok {
+			if val1 != val2 {
+				return false
+			}
+		} else {
+			return false
+		}
+	}
+	// Now look for missing keys in m1, return false if found.
+	for k, _ := range m2 {
+		if _, ok := m1[k]; !ok {
+			return false
+		}
+	}
+	return true
+}
+
+
+func mapOfMapStringIsSame(m1 []map[string]string, m2 []map[string]string) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !mapStringStringIsSame(v, m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func listCreatorIsSame(m1 []*Creator, m2 []*Creator) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func listTitleDetailIsSame(m1 []*TitleDetail, m2 []*TitleDetail) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func listDescriptionIsSame(m1 []*Description, m2 []*Description) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func listRightIsSame(m1 []*Right, m2 []*Right) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func listSubjectIsSame(m1 []*Subject, m2 []*Subject) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func listDateTypeIsSame(m1 []*DateType, m2 []*DateType) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func listIdentifierIsSame(m1 []*Identifier, m2 []*Identifier) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func listFunderIsSame(m1 []*Funder, m2 []*Funder) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func (m *Metadata) IsSame(t *Metadata) bool {
+	if m == nil && t == nil {
+		return true
+	}
+	if m == nil || t == nil {
+		return false
+	}
+	if !mapStringStringIsSame(m.ResourceType, t.ResourceType) {
+		return false
+	}
+	if !listCreatorIsSame(m.Creators, t.Creators) {
+		return false
+	}
+	if m.Title != t.Title {
+		return false
+	}
+	if m.PublicationDate != t.PublicationDate {
+		return false
+	}
+	if !listTitleDetailIsSame(m.AdditionalTitles, t.AdditionalTitles) {
+		return false
+	}
+	if strings.TrimSpace(m.Description) != strings.TrimSpace(t.Description) {
+		return false
+	}
+	if !listDescriptionIsSame(m.AdditionalDescriptions, t.AdditionalDescriptions) {
+		return false
+	}
+	if !listRightIsSame(m.Rights, t.Rights) {
+		return false
+	}
+	if !listCreatorIsSame(m.Contributors, t.Contributors) {
+		return false
+	}
+	if !listSubjectIsSame(m.Subjects, t.Subjects) {
+		return false
+	}
+	if !mapOfMapStringIsSame(m.Languages, t.Languages) {
+		return false
+	}
+	if !listDateTypeIsSame(m.Dates, t.Dates) {
+		return false
+	}
+	if m.Version != t.Version {
+		return false
+	}
+	if m.Publisher != t.Publisher {
+		return false
+	}
+	if !listIdentifierIsSame(m.Identifiers, t.Identifiers) {
+		return false
+	}
+	if !listFunderIsSame(m.Funding, t.Funding) {
+		return false
+	}
+	return true
+}
+
+func mapStringEntryIsSame(m1 map[string]*Entry, m2 map[string]*Entry) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for k, v1 := range m1 {
+		if v2, ok := m2[k]; ok {
+			if v1 != v2 {
+				return false
+			}
+		} else {
+			return false
+		}
+	}
+	return true
+}
+
+func listStringsIsSame(m1 []string, m2 []string) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if v != m2[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func (f *Files) IsSame(t *Files) bool {
+	if f == nil && t == nil {
+		return true
+	}
+	if f == nil || t == nil {
+		return false
+	}
+	if f.Enabled != t.Enabled {
+		return false
+	}
+	if !mapStringEntryIsSame(f.Entries, t.Entries) {
+		return false
+	}
+	if f.DefaultPreview != t.DefaultPreview {
+		return false
+	}
+	if !listStringsIsSame(f.Sizes, t.Sizes) {
+		return false
+	}
+	if !listStringsIsSame(f.Formats, t.Formats) {
+		return false
+	}
+	if !listStringsIsSame(f.Order, t.Order) {
+		return false
+	}
+	if !f.Locations.IsSame(t.Locations) {
+		return false
+	}
+	return true
+}
+
+func listFeatureIsSame(m1 []*Feature, m2 []*Feature) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if v != m2[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func (g *Geometry) IsSame(t *Geometry) bool {
+	if g == nil && t == nil {
+		return true
+	}
+	if g == nil || t == nil {
+		return false
+	}
+	if g.Type != t.Type {
+		return false
+	}
+	for i := 0; i < 2; i++ {
+		if g.Coordinates[i] != t.Coordinates[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func (f *Feature) IsSame(t *Feature) bool {
+	if f == nil && t == nil {
+		return true
+	}
+	if f == nil || t == nil {
+		return false
+	}
+	if !f.Geometry.IsSame(t.Geometry) {
+		return false
+	}
+	if !listIdentifierIsSame(f.Identifiers, t.Identifiers) {
+		return false
+	}
+	if f.Place != t.Place {
+		return false
+	}
+	if f.Description != t.Description {
+		return false
+	}
+	return true
+}
+
+func (l *Location) IsSame(t *Location) bool {
+	if l == nil && t == nil {
+		return true
+	}
+	if l == nil || t == nil {
+		return false
+	}
+	if !listFeatureIsSame(l.Feature, t.Feature) {
+		return false
+	}
+	return true
+}
+
+func listUserIsSame(m1 []*User, m2 []*User) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func (u *User) IsSame(t *User) bool {
+	if u == nil && t == nil {
+		return true
+	}
+	if u == nil || t == nil {
+		return false
+	}
+	if u.User != t.User {
+		return false
+	}
+	if u.DisplayName != t.DisplayName {
+		return false
+	}
+	if u.Email != t.Email {
+		return false
+	}
+	return true
+}
+
+func (ts *Tombstone) IsSame(t *Tombstone) bool {
+	if ts == nil && t == nil {
+		return true
+	}
+	if ts == nil || t == nil {
+		return false
+	}
+	if ts.Reason != t.Reason {
+		return false
+	}
+	if ts.Category != t.Category {
+		return false
+	}
+	if !ts.RemovedBy.IsSame(t.RemovedBy) {
+		return false
+	}
+	if ts.Timestamp != t.Timestamp {
+		return false
+	}
+	return true
+}
+
+func (a *Access) IsSame(t *Access) bool {
+	if a == nil && t == nil {
+		return true
+	}
+	if a == nil || t == nil {
+		return false
+	}
+	if !listUserIsSame(a.OwnedBy, t.OwnedBy) {
+		return false
+	}
+	return true
+}
+
+func (e *Embargo) IsSame(t *Embargo) bool {
+	if e == nil && t == nil {
+		return true
+	}
+	if e == nil || t == nil {
+		return false
+	}
+	if e.Active != t.Active {
+		return false
+	}
+	if e.Until != t.Until {
+		return false
+	}
+	if e.Reason != t.Reason {
+		return false
+	}
+	return true
+}
+
+func (tp *Type) IsSame(t *Type) bool {
+	if tp == nil && t == nil {
+		return true
+	}
+	if tp == nil || t == nil {
+		return false
+	}
+	if tp.ID != t.ID {
+		return false
+	}
+	if tp.Name != t.Name {
+		return false
+	}
+	if tp.Title != t.Title {
+		return false
+	}
+	return true
+}
+
+func (i *Identifier) IsSame(t *Identifier) bool {
+	if i == nil && t == nil {
+		return true
+	}
+	if i == nil || t == nil {
+		return false
+	}
+	if i.Scheme != t.Scheme {
+		return false
+	}
+	if i.Name != t.Name {
+		return false
+	}
+	if i.Number != t.Number {
+		return false
+	}
+	if i.Identifier != t.Identifier {
+		return false
+	}
+	if !i.RelationType.IsSame(t.RelationType) {
+		return false
+	}
+	if !i.ResourceType.IsSame(t.ResourceType) {
+		return false
+	}
+	return true
+}
+
+func (f *Funder) IsSame(t *Funder) bool {
+	if f == nil && t == nil {
+		return true
+	}
+	if f == nil || t == nil {
+		return false
+	}
+	if !f.Funder.IsSame(t.Funder) {
+		return false
+	}
+	if !f.Award.IsSame(t.Award) {
+		return false
+	}
+	if len(f.Reference) != len(t.Reference) {
+		return false
+	}
+	for i, reference := range f.Reference {
+		if !reference.IsSame(t.Reference[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func (c *Creator) IsSame(t *Creator) bool {
+	if c == nil && t == nil {
+		return true
+	}
+	if c == nil || t == nil {
+		return false
+	}
+	if !c.PersonOrOrg.IsSame(t.PersonOrOrg) {
+		return false
+	}
+	if !c.Role.IsSame(t.Role) {
+		return false
+	}
+	return true
+}
+
+func (po *PersonOrOrg) IsSame(t *PersonOrOrg) bool {
+	if po == nil && t == nil {
+		return true
+	}
+	if po == nil || t == nil {
+		return false
+	}
+	if po.ID != t.ID {
+		return false
+	}
+	if po.Type != t.Type {
+		return false
+	}
+	if po.GivenName != t.GivenName {
+		return false
+	}
+	if po.FamilyName != t.FamilyName {
+		return false
+	}
+	if po.Name != t.Name {
+		return false
+	}
+	if !listIdentifierIsSame(po.Identifiers, t.Identifiers) {
+		return false
+	}
+	if !listAffiliationIsSame(po.Affiliations, t.Affiliations) {
+		return false
+	}
+	return true
+}
+
+func (a *Affiliation) IsSame(t *Affiliation) bool {
+	if a == nil && t == nil {
+		return true
+	}
+	if a == nil || t == nil {
+		return false
+	}
+	if a.ID != t.ID {
+		return false
+	}
+	if a.Name != t.Name {
+		return false
+	}
+	return true
+}
+
+func listAffiliationIsSame(m1 []*Affiliation, m2 []*Affiliation) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	if len(m1) != len(m2) {
+		return false
+	}
+	for i, v := range m1 {
+		if !v.IsSame(m2[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func (r *Role) IsSame(t *Role) bool {
+	if r == nil && t == nil {
+		return true
+	}
+	if r == nil || t == nil {
+		return false
+	}
+	if r.ID != t.ID {
+		return false
+	}
+	if r.Title != t.Title {
+		return false
+	}
+	if !mapStringStringIsSame(r.Props, t.Props) {
+		return false
+	}
+	return true
+
+}
+
+func (td *TitleDetail) IsSame(t *TitleDetail) bool {
+	if td == nil && t == nil {
+		return true
+	}
+	if td == nil || t == nil {
+		return false
+	}
+	if td.Title != t.Title {
+		return false
+	}
+	if ! td.Type.IsSame(t.Type) {
+		return false
+	}
+	if ! td.Lang.IsSame(t.Lang) {
+		return false
+	}
+	return true
+}
+
+func (d *Description) IsSame(t *Description) bool {
+	if d == nil && t == nil {
+		return true
+	}
+	if d == nil || t == nil {
+		return false
+	}
+	if d.Description != t.Description {
+		return false
+	}
+	if ! d.Type.IsSame(t.Type) {
+		return false
+	}
+	if ! d.Lang.IsSame(t.Lang) {
+		return false
+	}
+	return true
+}
+
+func (r *Right) IsSame(t *Right) bool {
+	if r == nil && t == nil {
+		return true
+	}
+	if r == nil || t == nil {
+		return false
+	}
+	if ! r.Description.IsSame(t.Description) {
+		return false
+	}
+	if r.Link != t.Link {
+		return false
+	}
+	return true
+}
+
+func (s *Subject) IsSame(t *Subject) bool {
+	if s == nil && t == nil {
+		return true
+	}
+	if s == nil || t == nil {
+		return false
+	}
+	if s.Subject != t.Subject {
+		return false
+	}
+	if s.ID != t.ID {
+		return false
+	}
+	return false
+}
+
+func (d *DateType) IsSame(t *DateType) bool {
+	if d == nil && t == nil {
+		return true
+	}
+	if d == nil || t == nil {
+		return false
+	}
+	if d.Date != t.Date {
+		return false
+	}
+	if ! d.Type.IsSame(t.Type) {
+		return false
+	}
+	if d.Description != t.Description {
+		return false
+	}
+	return true
+}
+
+func (td *TypeDetail) IsSame(t *TypeDetail) bool {
+	if td == nil && t == nil {
+		return true
+	}
+	if td == nil || t == nil {
+		return false
+	}
+	if td.Name != t.Name {
+		return false
+	}
+	if ! mapStringStringIsSame(td.Title, t.Title) {
+		return false
+	}
+	return true
+}
+
+
+// Diff takes a new Metadata struct and compares it with
+// and existing Metadata struct. It rturns two Metadata
+// structs with only the different attributes sets.
+//
+// ```
+//    src, err := os.ReadFile("old-record.json")
+//    // ... handler error ...
+//    oldRecord := new(simplified.Record)
+//    if err = json.Unmarshal(src, &oldRecord) {
+//        // ... handler error ...
+//    }
+//    src, err = os.ReadFile("new-record.json")
+//    newRecord := new(simplified.Record)
+//    if err = json.Unmarshal(src, &newRecord) {
+//        // ... handler error ...
+//    }
+//    // Now create to new minimal Metadata structs with Diff.
+//    o, n := oldRecord.Metadata.Diff(newRecord.Metadata)
+//    // Convert to a JSON two cell array of old and new changes
+//    src, err = json.MarshalIndent([]*Metadata{o, n}, "", "     ")
+//    // ... handler error ...
+//    // Print out the formatted JSON 
+//    fmt.Printf("%s\n", src)
+// ```
+func (m *Metadata) Diff(t *Metadata) (*Metadata, *Metadata) {
+	if m == nil && t == nil {
+		return nil, nil
+	}
+	if m == nil {
+		return nil, t
+	}
+	if t == nil {
+		return m, t
+	}
+	oM, nM := new(Metadata), new(Metadata)
+	if !mapStringStringIsSame(m.ResourceType, t.ResourceType) {
+		oM.ResourceType = m.ResourceType
+		nM.ResourceType = t.ResourceType
+	}
+	if !listCreatorIsSame(m.Creators, t.Creators) {
+		oM.Creators = m.Creators
+		nM.Creators = t.Creators
+	}
+	if m.Title != t.Title {
+		oM.Title = m.Title
+		nM.Title = t.Title
+	}
+	if m.PublicationDate != t.PublicationDate {
+		oM.PublicationDate = m.PublicationDate
+		nM.PublicationDate = t.PublicationDate
+	}
+	if !listTitleDetailIsSame(m.AdditionalTitles, t.AdditionalTitles) {
+		oM.AdditionalTitles = m.AdditionalTitles
+		nM.AdditionalTitles = t.AdditionalTitles
+	}
+	if strings.TrimSpace(m.Description) != strings.TrimSpace(t.Description) {
+		oM.Description = m.Description
+		nM.Description = t.Description
+	}
+	if !listDescriptionIsSame(m.AdditionalDescriptions, t.AdditionalDescriptions) {
+		oM.AdditionalDescriptions = m.AdditionalDescriptions
+		nM.AdditionalDescriptions = t.AdditionalDescriptions
+	}
+	if !listRightIsSame(m.Rights, t.Rights) {
+		oM.Rights = m.Rights
+		nM.Rights = t.Rights
+	}
+	if !listCreatorIsSame(m.Contributors, t.Contributors) {
+		oM.Contributors = m.Contributors
+		nM.Contributors = t.Contributors
+	}
+	if !listSubjectIsSame(m.Subjects, t.Subjects) {
+		oM.Subjects = m.Subjects
+		nM.Subjects = t.Subjects
+	}
+	if !mapOfMapStringIsSame(m.Languages, t.Languages) {
+		oM.Languages = m.Languages
+		nM.Languages = t.Languages
+	}
+	if !listDateTypeIsSame(m.Dates, t.Dates) {
+		oM.Dates = m.Dates
+		nM.Dates = t.Dates
+	}
+	if m.Version != t.Version {
+		oM.Version = m.Version
+		nM.Version = t.Version
+	}
+	if m.Publisher != t.Publisher {
+		oM.Publisher = m.Publisher
+		nM.Publisher = t.Publisher
+	}
+	if !listIdentifierIsSame(m.Identifiers, t.Identifiers) {
+		oM.Identifiers = m.Identifiers
+		nM.Identifiers = t.Identifiers
+	}
+	if !listFunderIsSame(m.Funding, t.Funding) {
+		oM.Funding = m.Funding
+		nM.Funding = t.Funding
+	}
+	return oM, nM
+}
+
+
+// DiffAsJSON takes a diff of two metadata objects and
+// returns a two cell array with the minimal object reflecting
+// the changes from old to new.
+// ```
+//    src, err := os.ReadFile("old-record.json")
+//    // ... handler error ...
+//    oldRecord := new(simplified.Record)
+//    if err = json.Unmarshal(src, &oldRecord) {
+//        // ... handler error ...
+//    }
+//    src, err = os.ReadFile("new-record.json")
+//    newRecord := new(simplified.Record)
+//    if err = json.Unmarshal(src, &newRecord) {
+//        // ... handler error ...
+//    }
+//    // Now create our JSON Diff
+//    src, err := := oldRecord.Metadata.DiffAsJSON(newRecord.Metadata)
+//    // ... handler error ...
+//    // Print out the formatted JSON 
+//    fmt.Printf("%s\n", src)
+// ```
+func (m *Metadata) DiffAsJSON(t *Metadata) ([]byte, error) {
+	o, n := m.Diff(t)
+	src, err := json.MarshalIndent([]*Metadata{o, n}, "", "    ")
+	if err != nil {
+		return nil, err
+	}
+	return src, nil
+}
+
+
+// Diff takes a new Record struct and compares it with
+// and existing Record struct. It rturns two Record
+// structs with only the different attributes sets.
+//
+// ```
+//    src, err := os.ReadFile("old-record.json")
+//    // ... handler error ...
+//    oldRecord := new(simplified.Record)
+//    if err = json.Unmarshal(src, &oldRecord) {
+//        // ... handler error ...
+//    }
+//    src, err = os.ReadFile("new-record.json")
+//    newRecord := new(simplified.Record)
+//    if err = json.Unmarshal(src, &newRecord) {
+//        // ... handler error ...
+//    }
+//    // Now create to new minimal Record structs with Diff.
+//    o, n := oldRecord.Diff(newRecord)
+//    // Convert to a JSON two cell array of old and new changes
+//    src, err = json.MarshalIndent([]*Record{o, n}, "", "     ")
+//    // ... handler error ...
+//    // Print out the formatted JSON 
+//    fmt.Printf("%s\n", src)
+// ```
+func (rec *Record) Diff(t *Record) (*Record, *Record) {
+	if rec == nil && t == nil {
+		return nil, nil
+	}
+	if rec == nil {
+		return nil, t
+	}
+	if t == nil {
+		return rec, nil
+	}
+	oR, nR := new(Record), new(Record)
+	if rec.Schema != t.Schema {
+		oR.Schema = rec.Schema
+		nR.Schema = t.Schema
+	}
+	if rec.ID != t.ID {
+		oR.ID = rec.ID
+		nR.ID = t.ID
+	}
+	if !rec.Parent.IsSame(t.Parent) {
+		oR.Parent = rec.Parent
+		nR.Parent = t.Parent
+	}
+	if !mapStringPersistentIdentifierIsSame(rec.ExternalPIDs, t.ExternalPIDs) {
+		oR.ExternalPIDs = rec.ExternalPIDs
+		nR.ExternalPIDs = t.ExternalPIDs
+	}
+	if !rec.RecordAccess.IsSame(t.RecordAccess) {
+		oR.RecordAccess = rec.RecordAccess
+		nR.RecordAccess = t.RecordAccess
+	}
+	if !rec.Metadata.IsSame(t.Metadata) {
+		oR.Metadata = rec.Metadata
+		nR.Metadata = t.Metadata
+	}
+	if !rec.Files.IsSame(t.Files) {
+		oR.Files = rec.Files
+		nR.Files = t.Files
+	}
+	if !rec.Tombstone.IsSame(t.Tombstone) {
+		oR.Tombstone = rec.Tombstone
+		nR.Tombstone = t.Tombstone
+	}
+	if rec.Created != t.Created {
+		oR.Created = rec.Created
+		nR.Created = t.Created
+	}
+	if rec.Updated != t.Updated {
+		oR.Updated = rec.Updated
+		nR.Updated = t.Updated
+	}
+	// NOTE: The simplified Record has an Annotations field, this isn't
+	// documented in RDM so not checking it.
+	return oR, nR
+}
+
+// DiffAsJSON takes a diff of two Record objects and
+// returns a two cell array with the minimal Record reflecting
+// the changes from old to new.
+// ```
+//    src, err := os.ReadFile("old-record.json")
+//    // ... handler error ...
+//    oldRecord := new(simplified.Record)
+//    if err = json.Unmarshal(src, &oldRecord) {
+//        // ... handler error ...
+//    }
+//    src, err = os.ReadFile("new-record.json")
+//    newRecord := new(simplified.Record)
+//    if err = json.Unmarshal(src, &newRecord) {
+//        // ... handler error ...
+//    }
+//    // Now create our JSON Diff
+//    src, err := := oldRecord.DiffAsJSON(newRecord)
+//    // ... handler error ...
+//    // Print out the formatted JSON 
+//    fmt.Printf("%s\n", src)
+// ```
+func (m *Record) DiffAsJSON(t *Record) ([]byte, error) {
+	o, n := m.Diff(t)
+	src, err := json.MarshalIndent([]*Record{o, n}, "", "    ")
+	if err != nil {
+		return nil, err
+	}
+	return src, nil
+}
+
