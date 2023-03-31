@@ -92,7 +92,7 @@ about.md: .FORCE
 	if [ -f $(PANDOC) ]; then echo "" | pandoc --metadata title="About $(PROJECT)" --metadata-file=_codemeta.json --template codemeta-md.tmpl >about.md; fi
 	if [ -f _codemeta.json ]; then rm _codemeta.json; fi
 
-website: index.md about.md page.tmpl *.md LICENSE css/site.css
+website: index.md about.md page.tmpl *.md LICENSE
 	make -f website.mak
 
 

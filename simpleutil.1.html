@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>${title}</title>
+    <title>simplified - simpleutil.1.html</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/site.css">
 </head>
@@ -23,7 +23,45 @@
 </nav>
 
 <section>
-${body}
+<h1 id="name">NAME</h1>
+<p>simpleutil</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>simpleutil <a href="#options">OPTIONS</a> SIMPLIFIED_JSON_FILE
+[OUTPUT_FILENAME]</p>
+<p>simpleutil -diff SIMPLIFIED_JSON_FILE SIMPLIFIED_JSON_FILE
+[OUTPUT_FILENAME]</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>simpleutil reads a simplified JSON record, validates and pretty
+prints the JSON output. This is primarily a test of using the simplified
+record. The “-diff” option will take to JSON records and perform a diff
+operation returning a JSON array with the first cell holding the in
+difference from the first file and the second one holding the
+attribitutes in difference for the second file.</p>
+<p>You can use a filename of “-” to read input from standard input.</p>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>-help</dt>
+<dd>
+display help
+</dd>
+<dt>-license</dt>
+<dd>
+display license
+</dd>
+<dt>-version</dt>
+<dd>
+display version
+</dd>
+<dt>-diff</dt>
+<dd>
+will difference two simple records in JSON files.
+</dd>
+</dl>
+<h1 id="examples">EXAMPLES</h1>
+<p>Pretty print a simplified JSON record.</p>
+<pre><code>simpleutil my-record.json</code></pre>
+<p>Compare the differences between JSON records.</p>
+<pre><code>simpleutil -diff record-old.json record-new.json</code></pre>
 </section>
 
 <footer>

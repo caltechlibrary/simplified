@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>${title}</title>
+    <title>simplified - INSTALL.html</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/site.css">
 </head>
@@ -23,7 +23,29 @@
 </nav>
 
 <section>
-${body}
+<h1 id="installation">Installation</h1>
+<p>simplified is an experimental package. As such we you need to to
+compile the source code to produce executables if you wish to try out
+the example programs. Installation requires the following.</p>
+<ul>
+<li>Git</li>
+<li>Go 1.21.1 or better</li>
+<li>GNU Make</li>
+<li>Bash</li>
+<li>Pandoc (for documentation processing)</li>
+</ul>
+<p>Steps to install.</p>
+<ol type="1">
+<li>clone this repository</li>
+<li>change into the cloned directory</li>
+<li>Run <code>make</code>, the executables will be in the “bin”
+directory</li>
+</ol>
+<pre><code>git clone https://github.com/caltechlibrary/simplified
+cd simplified
+make
+./bin/simpleutil -help
+./bin/simple2markdown -help</code></pre>
 </section>
 
 <footer>

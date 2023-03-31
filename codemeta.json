@@ -24,7 +24,7 @@
     "macOS"
   ],
   "softwareRequirements": [
-    "Go v1.19"
+    "Go >= v1.20.1"
   ],
   "author": [
     {

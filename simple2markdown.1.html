@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>${title}</title>
+    <title>simplified - simple2markdown.1.html</title>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/site.css">
 </head>
@@ -23,7 +23,34 @@
 </nav>
 
 <section>
-${body}
+<h1 id="name">NAME</h1>
+<p>simple2markdown</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p>simple2markdown <a href="#options">OPTIONS</a>
+SIMPLIFIED_JSON_FILE</p>
+<h1 id="description">DESCRIPTION</h1>
+<p>simple2markdown reads a simplified JSON record and outputs Markdown.
+This is primarily a test of using the simplified record in Markdown as a
+visual reference for the data structures. In practice you would want to
+use something like Pandoc with templates to render useful Markdown or
+HTML content.</p>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>-help</dt>
+<dd>
+display help
+</dd>
+<dt>-license</dt>
+<dd>
+display license
+</dd>
+<dt>-version</dt>
+<dd>
+display version
+</dd>
+</dl>
+<h1 id="example">EXAMPLE</h1>
+<pre><code>    simple2markdown my-record.json &gt; my-record.md</code></pre>
 </section>
 
 <footer>

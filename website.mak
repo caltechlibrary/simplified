@@ -9,12 +9,13 @@ HTML_PAGES = $(shell ls -1 *.md | sed -E 's/.md/.html/g')
 
 build: $(HTML_PAGES) $(MD_PAGES) pagefind
 
-$(HTML_PAGES): $(MD_PAGES) .FORCE
+$(HTML_PAGES): $(MD_PAGES) index.html .FORCE 
 	pandoc -s --to html5 $(basename $@).md -o $(basename $@).html \
 		--metadata title="$(PROJECT) - $@" \
 	    --lua-filter=links-to-html.lua \
 	    --template=page.tmpl
 	git add $(basename $@).html
+	if [ "$@" = "README.html" ]; then cp README.html index.html; git add index.html; fi
 
 pagefind: .FORCE
 	pagefind --verbose --exclude-selectors="nav,header,footer" --bundle-dir ./pagefind --source .
