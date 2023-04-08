@@ -52,8 +52,9 @@ type Record struct {
 	Created      time.Time                        `json:"created"`             // create time for record
 	Updated      time.Time                        `json:"updated"`             // modified time for record
 
-	// Annotation this is where I'm going to map custom fields.
-	Annoations map[string]interface{} `json:"annotations,omitempty"`
+	// CLAnnotations this is where Caltech Library specific annotations
+	// are made. 
+	CLAnnotations map[string]interface{} `json:"cl_annotations,omitempty"`
 }
 
 //
@@ -100,6 +101,8 @@ type Metadata struct {
 	Version                string               `json:"version,omitempty"`
 	Publisher              string               `json:"publisher,omitempty"`
 	Identifiers            []*Identifier        `json:"identifiers,omitempty"`
+	RelatedIdentifiers     []*Identifier        `json:"related_identifiers,omitepmty"`
+
 	Funding                []*Funder            `json:"funding,omitempty"`
 
 	/*
