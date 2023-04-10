@@ -101,7 +101,7 @@ type Metadata struct {
 	Version                string               `json:"version,omitempty"`
 	Publisher              string               `json:"publisher,omitempty"`
 	Identifiers            []*Identifier        `json:"identifiers,omitempty"`
-	RelatedIdentifiers     []*Identifier        `json:"related_identifiers,omitepmty"`
+	RelatedIdentifiers     []*Identifier        `json:"related_identifiers,omitempty"`
 
 	Funding                []*Funder            `json:"funding,omitempty"`
 
