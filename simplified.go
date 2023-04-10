@@ -39,8 +39,10 @@ import (
 
 // Record implements the top level Invenio 3 record structure
 type Record struct {
+	// Scheme indicates the schema and version of records
 	Schema string `json:"$schema,omitempty"`
-	ID     string `json:"id"` // Interneral persistent identifier for a specific version.
+	// Interneral persistent identifier for a specific version.
+	ID     string `json:"id,omitempty"` 
 	//PID    map[string]interface{} `json:"pid,omitempty"` // Interneral persistent identifier for a specific version.
 	Parent *RecordIdentifier `json:"parent,omitempty"`
 	// The internal persistent identifier for ALL versions.
