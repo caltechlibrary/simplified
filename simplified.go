@@ -297,9 +297,19 @@ type DateType struct {
 
 // Funder holds funding information for funding organizations in Metadata
 type Funder struct {
-	Funder    *Identifier   `json:"funder,omitempty"`
-	Award     *Identifier   `json:"award,omitempty"`
-	Reference []*Identifier `json:"references,omitempty"`
+	Funder    *Identifier      `json:"funder,omitempty"`
+	Award     *AwardIdentifier `json:"award,omitempty"`
+	Reference []*Identifier    `json:"references,omitempty"`
+}
+
+type AwardIdentifier struct {
+	Scheme       string       `json:"scheme,omitempty"`
+	Name         string       `json:"name,omitempty"`
+	Title        *TitleDetail `json:"title,omitempty"`
+	Number       string       `json:"number,omitempty"`
+	Identifier   string       `json:"identifier,omitempty"`
+	RelationType *TypeDetail  `json:"relation_type,omitempty"`
+	ResourceType *TypeDetail  `json:"resource_type,omitempty"`
 }
 
 //
