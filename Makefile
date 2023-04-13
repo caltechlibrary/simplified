@@ -96,11 +96,8 @@ website: index.md about.md page.tmpl *.md LICENSE
 	make -f website.mak
 
 
-test: version.go eputil epfmt doi2eprintxml ep3apid
-	- cd cleaner && go test -test.v
-	- cd clsrules && go test -test.v
+test: .FORCE
 	- go test -timeout 1h -test.v
-	./test_cmds.bash
 
 
 clean:

@@ -29,6 +29,7 @@ package simplified
 
 import (
 	"encoding/json"
+	"reflect"
 	"strings"
 	"time"
 )
@@ -43,20 +44,27 @@ type Record struct {
 	Schema string `json:"$schema,omitempty"`
 	// Interneral persistent identifier for a specific version.
 	ID     string `json:"id,omitempty"` 
-	//PID    map[string]interface{} `json:"pid,omitempty"` // Interneral persistent identifier for a specific version.
-	Parent *RecordIdentifier `json:"parent,omitempty"`
-	// The internal persistent identifier for ALL versions.
-	ExternalPIDs map[string]*PersistentIdentifier `json:"pids,omitempty"`      // System-managed external persistent identifiers (DOI, Handles, OAI-PMH identifiers)
-	RecordAccess *RecordAccess                    `json:"access,omitempty"`    // Access control for record
-	Metadata     *Metadata                        `json:"metadata"`            // Descriptive metadata for the resource
-	Files        *Files                           `json:"files,omitempty"`     // Associated files information.
-	Tombstone    *Tombstone                       `json:"tombstone,omitempty"` // Tombstone (deasscession) information.
-	Created      time.Time                        `json:"created"`             // create time for record
-	Updated      time.Time                        `json:"updated"`             // modified time for record
 
-	// CLAnnotations this is where Caltech Library specific annotations
-	// are made. 
-	CLAnnotations map[string]interface{} `json:"cl_annotations,omitempty"`
+	//PID    map[string]interface{} `json:"pid,omitempty"` // Interneral persistent identifier for a specific version.
+
+	// The internal persistent identifier for ALL versions.
+	Parent *RecordIdentifier `json:"parent,omitempty"`
+	// System-managed external persistent identifiers (DOI, Handles, OAI-PMH identifiers)
+	ExternalPIDs map[string]*PersistentIdentifier `json:"pids,omitempty"`      
+	// Descriptive metadata for the resource
+	Metadata     *Metadata                        `json:"metadata"`            
+	// Associated files information.
+	Files        *Files                           `json:"files,omitempty"`     
+	// Access control for record
+	RecordAccess *RecordAccess                    `json:"access,omitempty"`    
+	// Tombstone (deasscession) information.
+	Tombstone    *Tombstone                       `json:"tombstone,omitempty"` 
+	// create time for record
+	Created      time.Time                        `json:"created"`             
+	// modified time for record
+	Updated      time.Time                        `json:"updated"`             
+	// This is the place where RDM custom fields get mapped.
+	CustomFields map[string]interface{} `json:"custom_fields,omitempty"`
 }
 
 //
@@ -106,12 +114,6 @@ type Metadata struct {
 	RelatedIdentifiers     []*Identifier        `json:"related_identifiers,omitempty"`
 
 	Funding                []*Funder            `json:"funding,omitempty"`
-
-	/*
-		// Extended  is where I am putting important
-		// EPrint XML fields that don't clearly map.
-		Extended map[string]*interface{} `json:"extended,omitempty"`
-	*/
 }
 
 // Files
@@ -1201,6 +1203,16 @@ func (td *TypeDetail) IsSame(t *TypeDetail) bool {
 	return true
 }
 
+func CustomFieldsAreSame(m1 map[string]interface{}, m2 map[string]interface{}) bool {
+	if m1 == nil && m2 == nil {
+		return true
+	}
+	if m1 == nil || m2 == nil {
+		return false
+	}
+	return reflect.DeepEqual(m1, m2)
+}
+
 
 // Diff takes a new Metadata struct and compares it with
 // and existing Metadata struct. It rturns two Metadata
@@ -1399,6 +1411,12 @@ func (rec *Record) Diff(t *Record) (*Record, *Record) {
 		oR.Files = rec.Files
 		nR.Files = t.Files
 	}
+	// NOTE: The simplified Record contains the RDM CustomFields
+	// map. This needs to be diffed with a map comparison function.
+	if ! CustomFieldsAreSame(rec.CustomFields, t.CustomFields) {
+		oR.CustomFields = rec.CustomFields
+		nR.CustomFields = t.CustomFields
+	}
 	if !rec.Tombstone.IsSame(t.Tombstone) {
 		oR.Tombstone = rec.Tombstone
 		nR.Tombstone = t.Tombstone
@@ -1411,8 +1429,6 @@ func (rec *Record) Diff(t *Record) (*Record, *Record) {
 		oR.Updated = rec.Updated
 		nR.Updated = t.Updated
 	}
-	// NOTE: The simplified Record has an Annotations field, this isn't
-	// documented in RDM so not checking it.
 	return oR, nR
 }
 
