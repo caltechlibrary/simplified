@@ -96,22 +96,22 @@ type RecordAccess struct {
 // Metadata holds the primary metadata about the record. This
 // is where most of the EPrints 3.3.x data is mapped into.
 type Metadata struct {
-	ResourceType           map[string]interface{}   `json:"resource_type,omitempty"` // Resource type id from the controlled vocabulary.
-	Creators               []*Creator          `json:"creators,omitempty"`      //list of creator information (person or organization)
-	Title                  string              `json:"title"`
-	PublicationDate        string              `json:"publication_date,omitempty"`
-	AdditionalTitles       []*TitleDetail      `json:"additional_titles,omitempty"`
-	Description            string              `json:"description,omitempty"`
-	AdditionalDescriptions []*Description      `json:"additional_descriptions,omitempty"`
-	Rights                 []*Right            `json:"rights,omitempty"`
-	Contributors           []*Creator          `json:"contributors,omitempty"`
-	Subjects               []*Subject          `json:"subjects,omitempty"`
-	Languages              []map[string]string `json:"languages,omitempty"`
-	Dates                  []*DateType         `json:"dates,omitempty"`
-	Version                string              `json:"version,omitempty"`
-	Publisher              string              `json:"publisher,omitempty"`
-	Identifiers            []*Identifier       `json:"identifiers,omitempty"`
-	RelatedIdentifiers     []*Identifier       `json:"related_identifiers,omitempty"`
+	ResourceType           map[string]interface{} `json:"resource_type,omitempty"` // Resource type id from the controlled vocabulary.
+	Creators               []*Creator             `json:"creators,omitempty"`      //list of creator information (person or organization)
+	Title                  string                 `json:"title"`
+	PublicationDate        string                 `json:"publication_date,omitempty"`
+	AdditionalTitles       []*TitleDetail         `json:"additional_titles,omitempty"`
+	Description            string                 `json:"description,omitempty"`
+	AdditionalDescriptions []*Description         `json:"additional_descriptions,omitempty"`
+	Rights                 []*Right               `json:"rights,omitempty"`
+	Contributors           []*Creator             `json:"contributors,omitempty"`
+	Subjects               []*Subject             `json:"subjects,omitempty"`
+	Languages              []map[string]string    `json:"languages,omitempty"`
+	Dates                  []*DateType            `json:"dates,omitempty"`
+	Version                string                 `json:"version,omitempty"`
+	Publisher              string                 `json:"publisher,omitempty"`
+	Identifiers            []*Identifier          `json:"identifiers,omitempty"`
+	RelatedIdentifiers     []*Identifier          `json:"related_identifiers,omitempty"`
 
 	Funding []*Funder `json:"funding,omitempty"`
 }
@@ -310,9 +310,9 @@ type Funder struct {
 // with additional info like language. It is used to describe relationships
 // and resources in Identifiers. It is a variation of Type.
 type TypeDetail struct {
-	ID    string            `json:"id,omitempty"`
-	Name  string            `json:"name,omitempty"`
-	Title map[string]string `json:"title,omitempty"`
+	ID    string                 `json:"id,omitempty"`
+	Name  string                 `json:"name,omitempty"`
+	Title map[string]interface{} `json:"title,omitempty"`
 }
 
 func (rec *Record) ToString() []byte {
@@ -323,7 +323,6 @@ func (rec *Record) ToString() []byte {
 //
 // Utility methods and functions
 //
-
 
 // Diff takes a new Metadata struct and compares it with
 // and existing Metadata struct. It rturns two Metadata
@@ -510,28 +509,28 @@ func (rec *Record) Diff(t *Record) (*Record, *Record) {
 		oR.Parent = rec.Parent
 		nR.Parent = t.Parent
 	}
-	if !reflect.DeepEqual(rec.ExternalPIDs, t.ExternalPIDs)  {
+	if !reflect.DeepEqual(rec.ExternalPIDs, t.ExternalPIDs) {
 		oR.ExternalPIDs = rec.ExternalPIDs
 		nR.ExternalPIDs = t.ExternalPIDs
 	}
-	if ! reflect.DeepEqual(rec.RecordAccess, t.RecordAccess) {
+	if !reflect.DeepEqual(rec.RecordAccess, t.RecordAccess) {
 		oR.RecordAccess = rec.RecordAccess
 		nR.RecordAccess = t.RecordAccess
 	}
-	if ! reflect.DeepEqual(rec.Metadata, t.Metadata) {
+	if !reflect.DeepEqual(rec.Metadata, t.Metadata) {
 		oR.Metadata, nR.Metadata = rec.Metadata.Diff(t.Metadata)
 	}
-	if ! reflect.DeepEqual(rec.Files, t.Files) {
+	if !reflect.DeepEqual(rec.Files, t.Files) {
 		oR.Files = rec.Files
 		nR.Files = t.Files
 	}
 	// NOTE: The simplified Record contains the RDM CustomFields
 	// map. This needs to be diffed with a map comparison function.
-	if ! reflect.DeepEqual(rec.CustomFields, t.CustomFields) {
+	if !reflect.DeepEqual(rec.CustomFields, t.CustomFields) {
 		oR.CustomFields = rec.CustomFields
 		nR.CustomFields = t.CustomFields
 	}
-	if ! reflect.DeepEqual(rec.Tombstone,t.Tombstone) {
+	if !reflect.DeepEqual(rec.Tombstone, t.Tombstone) {
 		oR.Tombstone = rec.Tombstone
 		nR.Tombstone = t.Tombstone
 	}

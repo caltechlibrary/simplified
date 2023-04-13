@@ -197,7 +197,7 @@ func TestSimplifiedRecord(t *testing.T) {
 		t.FailNow()
 	}
 
-	if ! reflect.DeepEqual(simpleRecord1, simpleRecord2) {
+	if !reflect.DeepEqual(simpleRecord1, simpleRecord2) {
 		t.Errorf("expected deepEqual(simpleRecord1, simpleRecord2)")
 		t.FailNow()
 	}
