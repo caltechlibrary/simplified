@@ -36,7 +36,7 @@ ifeq ($(quick), true)
 endif
 
 
-build: version.go $(PROGRAMS)
+build: version.go $(PROGRAMS) CITATION.cff
 
 version.go: .FORCE
 	@echo 'package $(PROJECT)' >version.go
