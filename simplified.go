@@ -96,7 +96,7 @@ type RecordAccess struct {
 // Metadata holds the primary metadata about the record. This
 // is where most of the EPrints 3.3.x data is mapped into.
 type Metadata struct {
-	ResourceType           map[string]string   `json:"resource_type,omitempty"` // Resource type id from the controlled vocabulary.
+	ResourceType           map[string]interface{}   `json:"resource_type,omitempty"` // Resource type id from the controlled vocabulary.
 	Creators               []*Creator          `json:"creators,omitempty"`      //list of creator information (person or organization)
 	Title                  string              `json:"title"`
 	PublicationDate        string              `json:"publication_date,omitempty"`
