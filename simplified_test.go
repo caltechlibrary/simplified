@@ -18,6 +18,7 @@ package simplified
 
 import (
 	"encoding/json"
+	"reflect"
 	"testing"
 )
 
@@ -194,17 +195,21 @@ func TestSimplifiedRecord(t *testing.T) {
 	if err := json.Unmarshal(example1Text, &simpleRecord2); err != nil {
 		t.Errorf("Unmarshal failed, %s", err)
 		t.FailNow()
-		
+	}
+
+	if ! reflect.DeepEqual(simpleRecord1, simpleRecord2) {
+		t.Errorf("expected deepEqual(simpleRecord1, simpleRecord2)")
+		t.FailNow()
 	}
 
 	// test custom fields of rdm:journal
 	journal1 := map[string]interface{}{
 		"rdm:journal": map[string]interface{}{
-			"title": "Robert's Journal of Abstract Robots",
-			"year": "2023",
-			"volume": "23",
-			"issue": "4",
-			"pages": "232-244",
+			"title":          "Robert's Journal of Abstract Robots",
+			"year":           "2023",
+			"volume":         "23",
+			"issue":          "4",
+			"pages":          "232-244",
 			"article_number": 3,
 		},
 	}
@@ -215,19 +220,19 @@ func TestSimplifiedRecord(t *testing.T) {
 	simpleRecord2.CustomFields = journal2
 
 	src1, _ := json.MarshalIndent(simpleRecord1, "", "    ")
-	src2, _ :=json.MarshalIndent(simpleRecord2, "", "    ")
+	src2, _ := json.MarshalIndent(simpleRecord2, "", "    ")
 
-	if simpleRecord1.IsSame(simpleRecord2) {
-		t.Errorf("simpleRecord should not have a .custom_fields element ->\n%s\n%s\n", src1, src2)
+	if reflect.DeepEqual(simpleRecord1, simpleRecord2) {
+		t.Errorf("simpleRecord should not have a .custom_fields element ->\n%s\n============\n%s\n", src1, src2)
 		t.FailNow()
 	}
 	simpleRecord1.CustomFields = journal1
 
 	src1, _ = json.MarshalIndent(simpleRecord1, "", "    ")
-	src2, _ =json.MarshalIndent(simpleRecord2, "", "    ")
+	src2, _ = json.MarshalIndent(simpleRecord2, "", "    ")
 
-	if ! simpleRecord1.IsSame(simpleRecord2) {
-		t.Errorf("expected simpleRecord1 to be same as simpleRecord2 ->\n%s\n%s\n", src1, src2)
+	if !reflect.DeepEqual(simpleRecord1, simpleRecord2) {
+		t.Errorf("expected simpleRecord1 to be same as simpleRecord2 ->\n%s\n=============\n%s\n", src1, src2)
 		t.FailNow()
 	}
 }

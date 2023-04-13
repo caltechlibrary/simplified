@@ -97,7 +97,7 @@ website: index.md about.md page.tmpl *.md LICENSE
 
 
 test: .FORCE
-	- go test -timeout 1h -test.v
+	go test
 
 
 clean:
