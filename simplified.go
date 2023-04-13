@@ -256,6 +256,7 @@ type Type struct {
 // TitleDetail is used by AdditionalTitles in Metadata.
 type TitleDetail struct {
 	Title string `json:"title,omitempty"`
+	Encoding string `json:"en,omitempty"`
 	Type  *Type  `json:"type,omitempty"`
 	Lang  *Type  `json:"lang,omitempty"`
 }
