@@ -203,7 +203,7 @@ type Creator struct {
 // Role is an object describing a relationship to authorship
 type Role struct {
 	ID    string            `json:"id,omitempty"`
-	Title string            `json:"title,omitempty"`
+	Title map[string]string `json:"title,omitempty"`
 	Props map[string]string `json:"props,omitempty"`
 }
 
