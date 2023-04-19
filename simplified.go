@@ -106,7 +106,7 @@ type Metadata struct {
 	Rights                 []*Right               `json:"rights,omitempty"`
 	Contributors           []*Creator             `json:"contributors,omitempty"`
 	Subjects               []*Subject             `json:"subjects,omitempty"`
-	Languages              []map[string]string    `json:"languages,omitempty"`
+	Languages              []map[string]interface{}    `json:"languages,omitempty"`
 	Dates                  []*DateType            `json:"dates,omitempty"`
 	Version                string                 `json:"version,omitempty"`
 	Publisher              string                 `json:"publisher,omitempty"`
