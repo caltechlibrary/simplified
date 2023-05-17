@@ -36,7 +36,7 @@ ifeq ($(quick), true)
 endif
 
 
-build: version.go $(PROGRAMS) CITATION.cff
+build: version.go $(PROGRAMS) CITATION.cff installer.sh
 
 version.go: .FORCE
 	@echo 'package $(PROJECT)' >version.go
@@ -67,6 +67,8 @@ CITATION.cff: .FORCE
 	if [ -f $(PANDOC) ]; then echo "" | $(PANDOC) --metadata title="Cite $(PROJECT)" --metadata-file=_codemeta.json --template=codemeta-cff.tmpl >CITATION.cff; fi
 	if [ -f _codemeta.json ]; then rm _codemeta.json; fi
 
+installer.sh: .FORCE
+	echo '' | pandoc -s --metadata title='Installer' --metadata-file codemeta.json --template codemeta-installer.tmpl >installer.sh
 
 # NOTE: macOS requires a "mv" command for placing binaries instead of "cp" due to signing process of compile
 install: build man
