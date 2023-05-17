@@ -230,20 +230,21 @@ type PersonOrOrg struct {
 // Affiliation describes how a person or organization is affialated
 // for the purpose of the record.
 type Affiliation struct {
-	ID   string `json:"id,omitempty"`   // The organizational or institutional id from the controlled vocabularly
-	Name string `json:"name,omitempty"` // The name of the organization or institution
+	ID   string `json:"id,omitempty" yaml:"id,omitempty"`   // The organizational or institutional id from the controlled vocabularly
+	Name string `json:"name,omitempty" yaml:"name,omitempty"` // The name of the organization or institution
+	ROR string `json:"ror,omitempty" yaml:"ror,omitempty"`
 }
 
 // Identifier holds an Identifier, e.g. ORCID, ROR, ISNI, GND
 // for a person for organization it holds GRID, ROR. etc.
 type Identifier struct {
-	Scheme       string      `json:"scheme,omitempty"`
-	Name         string      `json:"name,omitempty"`
-	Title        string      `json:"title,omitempty"`
-	Number       string      `json:"number,omitempty"`
-	Identifier   string      `json:"identifier,omitempty"`
-	RelationType *TypeDetail `json:"relation_type,omitempty"`
-	ResourceType *TypeDetail `json:"resource_type,omitempty"`
+	Scheme       string      `json:"scheme,omitempty" yaml:"scheme,omitempty"`
+	Name         string      `json:"name,omitempty" yaml:"name,omitempty"`
+	Title        string      `json:"title,omitempty" yaml:"title,omitempty"`
+	Number       string      `json:"number,omitempty" yaml:"number,omitempty"`
+	Identifier   string      `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	RelationType *TypeDetail `json:"relation_type,omitempty" yaml:"relation_type,omitempty"`
+	ResourceType *TypeDetail `json:"resource_type,omitempty" yaml:"resource_type,omitempty"`
 }
 
 // Type is an Invenio 3 e.g. ResourceType, title type or language

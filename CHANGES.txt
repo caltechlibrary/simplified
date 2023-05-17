@@ -1,0 +1,227 @@
+commit a2f2be96568cc39abceeae5682797baeeb457a40
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Wed Apr 19 11:31:08 2023 -0700
+
+    prep for v0.0.11 release
+
+commit 504ebdf2f004242bf8cc0123e30ab8393c278402
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Wed Apr 19 08:29:37 2023 -0700
+
+    fix: corrected .metadata.languages in Metadata struct
+
+commit cee4503fddc19d31d4a0a6f1140256f9f7f26385
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Mon Apr 17 14:28:45 2023 -0700
+
+    trying out Role.Title as map[string]string to match RDM 11 record structure
+
+commit 2166f0881885788a127054e97c0fd80dc50392b5
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:52:25 2023 -0700
+
+    fix: made title in DateType a map[string]string to handle lang: title case
+
+commit 2d495c11d8567de413bb035b70a284039f39cca3
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:47:52 2023 -0700
+
+    Dates.Type.Title need to be map[string]string
+
+commit 188b1c4003b4c01a0751ab449ad43d026db1e2cd
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:42:42 2023 -0700
+
+    fix: added .en attribute to TitleDetail
+
+commit de5dd620df641927d0effe9611f8543d2cc83d20
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:42:31 2023 -0700
+
+    fix: added .en attribute to TitleDetail
+
+commit c456ea397b9ffeb69d3c4192931c9f2bff7ea06c
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:42:00 2023 -0700
+
+    fix: added .en to TitleDetail type
+
+commit 9a4c41e57064a261f11a54fa1017f1b49fee31e4
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:37:13 2023 -0700
+
+    fix: split out Award Identifiers a own type to deal with title details.
+
+commit 82a99d56bd9238b850cacc2a00754bd4c9b5369c
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:36:31 2023 -0700
+
+    fix: split out Award Identifiers a own type to deal with title details.
+
+commit 93f441b13b90ddb90f9b4b48f9962ca814332793
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:24:23 2023 -0700
+
+    fix: changed Identifier.Title to map[string]interface{}, prep v0.0.7
+
+commit 6f77c54de9668c3d0f489090bf418100e3213535
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:23:35 2023 -0700
+
+    fix: changed Identifier.Title to map[string]interface{}, prep v0.0.7
+
+commit 865c3fc972b7f20d1ff11250f660c19c192e5f78
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:15:53 2023 -0700
+
+    fix: .metatadata.resource_type changed to map[string]interface{}, prep v0.0.6
+
+commit 6e72b23dd0a8b486ccc81cc951ba8a368c782384
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:15:43 2023 -0700
+
+    fix: .metatadata.resource_type changed to map[string]interface{}, prep v0.0.6
+
+commit 37fe8f95c64b8f76f9542f62eb59182d96d64cca
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 16:12:33 2023 -0700
+
+    fix: RDM 11 has .metadata.resource_type as map[string]interface{}
+
+commit 40286d7e3c2d67c7161b4fb28dedba5a8104051e
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 15:33:07 2023 -0700
+
+    prep v0.0.5 release
+
+commit 5fa1ded75daab038d8b42c16b6f03e6030b3e14f
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 15:32:07 2023 -0700
+
+    feat: added RDM custom_fields
+
+commit f6953520f361bbd456c3b0b96a629e4d29cbe858
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Apr 13 14:26:49 2023 -0700
+
+    Quick Save
+
+commit 06179a6f94ded2991ea60432b29ec172a8513e7d
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Mon Apr 10 12:33:30 2023 -0700
+
+    added omitempty to id JSON mapping
+
+commit be0209970f8a037ff8c0da496957c48e0adc00b6
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Mon Apr 10 12:11:32 2023 -0700
+
+    prep for v0.0.3, bug fix
+
+commit b7014ddeca20d786dcc0fe8efd4e70d1f080acea
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Mon Apr 10 12:10:25 2023 -0700
+
+    fixed JSON mapping
+
+commit 523c7dfdbce9ce526b8ae9a6a199d8fcd49e867b
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Fri Apr 7 17:17:12 2023 -0700
+
+    commiting to main
+
+commit 4f6c69310a92d54318fd5ab69bcd1092564366cf
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Fri Apr 7 17:16:55 2023 -0700
+
+    bumped version number
+
+commit c4e4bd4f0fbf76c2247589de8b73f43484cb9a2b
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Fri Apr 7 17:16:21 2023 -0700
+
+    fix: attribute Record.Annoation, renamed to Record.CLAnnotation
+
+commit 98ee9bcb69a2713a8dbb5a23950d18bb6bc4c1e9
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Fri Mar 31 09:16:23 2023 -0700
+
+    Quick Save
+
+commit 4d200bd5956685c171319d3ae344696ae0a903cb
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Mar 30 17:09:46 2023 -0700
+
+    commiting to main
+
+commit 50f49643f4e9f407faf81270b73c066996353ae2
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Mar 30 17:07:02 2023 -0700
+
+    Quick Save
+
+commit 1e269d36eb9d6c882ecc3124b6ad7bb6421854b5
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Mar 30 17:05:48 2023 -0700
+
+    commiting to main
+
+commit 7772018421a9cfc38d53eb17782d3f3f4cf763eb
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Mar 30 17:00:51 2023 -0700
+
+    feat: updated docs, website, added simpleutil execute to demonstrate pretty printing and diff of simple records
+
+commit cd8c0f32bea7d83d5443aabbf8fd76cec1561836
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Mar 30 16:07:32 2023 -0700
+
+    feat: Added Diff, DiffAsJSON for Metadata and Record, add IsSame for most struct
+
+commit f0491957b9be68b5bd70e8d42bfd1a98f90c66d3
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Wed Mar 29 18:22:11 2023 -0700
+
+    Quick Save
+
+commit 8e9031dbdd8e14f46de6a94dc74149f3dff9ffa5
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Thu Mar 16 18:28:37 2023 -0700
+
+    feat: merged changed from eprinttools simplified
+
+commit dc3b4ddcdfc8f7fa984f318b91673bb88d2fb548
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Wed Feb 1 15:10:43 2023 -0800
+
+    Quick Save
+
+commit 3dc9feac31c264787968b49f5a1e55b72ce1fcbd
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Wed Feb 1 14:05:39 2023 -0800
+
+    Quick Save
+
+commit 9a2bd671a2faafadcad51aee4cd745b0812364e1
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Wed Feb 1 13:00:44 2023 -0800
+
+    Quick Save
+
+commit 31abdd41505a2c689e75d674ed0706fdbc852328
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Tue Jan 31 10:36:55 2023 -0800
+
+    sketch of test command simplified2markdown.1.md
+
+commit 3d86f0fd2ba28b7a4f17afbfb542f0af684ad917
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Mon Jan 30 15:48:28 2023 -0800
+
+    Added codemeta.json and CITATION.cff
+
+commit 968226bc4dd07220ec10d1e66282592fe4048776
+Author: R. S. Doiel <rsdoiel@gmail.com>
+Date:   Mon Jan 30 15:40:12 2023 -0800
+
+    Initial Setup
