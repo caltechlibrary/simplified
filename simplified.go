@@ -29,6 +29,7 @@ package simplified
 
 import (
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"strings"
 	"time"
@@ -96,22 +97,22 @@ type RecordAccess struct {
 // Metadata holds the primary metadata about the record. This
 // is where most of the EPrints 3.3.x data is mapped into.
 type Metadata struct {
-	ResourceType           map[string]interface{} `json:"resource_type,omitempty"` // Resource type id from the controlled vocabulary.
-	Creators               []*Creator             `json:"creators,omitempty"`      //list of creator information (person or organization)
-	Title                  string                 `json:"title"`
-	PublicationDate        string                 `json:"publication_date,omitempty"`
-	AdditionalTitles       []*TitleDetail         `json:"additional_titles,omitempty"`
-	Description            string                 `json:"description,omitempty"`
-	AdditionalDescriptions []*Description         `json:"additional_descriptions,omitempty"`
-	Rights                 []*Right               `json:"rights,omitempty"`
-	Contributors           []*Creator             `json:"contributors,omitempty"`
-	Subjects               []*Subject             `json:"subjects,omitempty"`
-	Languages              []map[string]interface{}    `json:"languages,omitempty"`
-	Dates                  []*DateType            `json:"dates,omitempty"`
-	Version                string                 `json:"version,omitempty"`
-	Publisher              string                 `json:"publisher,omitempty"`
-	Identifiers            []*Identifier          `json:"identifiers,omitempty"`
-	RelatedIdentifiers     []*Identifier          `json:"related_identifiers,omitempty"`
+	ResourceType           map[string]interface{}   `json:"resource_type,omitempty"` // Resource type id from the controlled vocabulary.
+	Creators               []*Creator               `json:"creators,omitempty"`      //list of creator information (person or organization)
+	Title                  string                   `json:"title"`
+	PublicationDate        string                   `json:"publication_date,omitempty"`
+	AdditionalTitles       []*TitleDetail           `json:"additional_titles,omitempty"`
+	Description            string                   `json:"description,omitempty"`
+	AdditionalDescriptions []*Description           `json:"additional_descriptions,omitempty"`
+	Rights                 []*Right                 `json:"rights,omitempty"`
+	Contributors           []*Creator               `json:"contributors,omitempty"`
+	Subjects               []*Subject               `json:"subjects,omitempty"`
+	Languages              []map[string]interface{} `json:"languages,omitempty"`
+	Dates                  []*DateType              `json:"dates,omitempty"`
+	Version                string                   `json:"version,omitempty"`
+	Publisher              string                   `json:"publisher,omitempty"`
+	Identifiers            []*Identifier            `json:"identifiers,omitempty"`
+	RelatedIdentifiers     []*Identifier            `json:"related_identifiers,omitempty"`
 
 	Funding []*Funder `json:"funding,omitempty"`
 }
@@ -211,11 +212,11 @@ type Role struct {
 // for the creators associated with the record.
 type PersonOrOrg struct {
 	ID   string `json:"clpid,omitempty" yaml:"clpid,omitempty"` // The Caltech Library internal person or organizational identifier used to cross walk data across library systems. (this is not part of Invenion 3)
-	Type string `json:"type,omitempty"`          // The type of name. Either "personal" or "organizational".
+	Type string `json:"type,omitempty"`                         // The type of name. Either "personal" or "organizational".
 
-	GivenName  string `json:"given_name,omitempty" xml:"given_name,omitempty" yaml:"given_name,omitempty"`   // GivenName holds a peron's given name, e.g. Jane
+	GivenName  string `json:"given_name,omitempty" xml:"given_name,omitempty" yaml:"given_name,omitempty"`    // GivenName holds a peron's given name, e.g. Jane
 	FamilyName string `json:"family_name,omitempty" xml:"family_name,omitempty" yaml:"family_name,omitempty"` // FamilyName holds a person's family name, e.g. Doe
-	Name       string `json:"name,omitempty" xml:"name,omitempty" yaml:"name,omitempty"`               // Name holds a corporate name, e.g. The Unseen University
+	Name       string `json:"name,omitempty" xml:"name,omitempty" yaml:"name,omitempty"`                      // Name holds a corporate name, e.g. The Unseen University
 
 	// Identifiers holds a list of unique ID like ORCID, GND, ROR, ISNI
 	Identifiers []*Identifier `json:"identifier,omitempty" yaml:"identifier,omitempty"`
@@ -230,9 +231,9 @@ type PersonOrOrg struct {
 // Affiliation describes how a person or organization is affialated
 // for the purpose of the record.
 type Affiliation struct {
-	ID   string `json:"id,omitempty" yaml:"id,omitempty"`   // The organizational or institutional id from the controlled vocabularly
+	ID   string `json:"id,omitempty" yaml:"id,omitempty"`     // The organizational or institutional id from the controlled vocabularly
 	Name string `json:"name,omitempty" yaml:"name,omitempty"` // The name of the organization or institution
-	ROR string `json:"ror,omitempty" yaml:"ror,omitempty"`
+	ROR  string `json:"ror,omitempty" yaml:"ror,omitempty"`
 }
 
 // Identifier holds an Identifier, e.g. ORCID, ROR, ISNI, GND
@@ -254,17 +255,17 @@ func (identifier *Identifier) String() string {
 
 // Type is an Invenio 3 e.g. ResourceType, title type or language
 type Type struct {
-	ID    string `json:"id,omitempty"`
-	Name  string `json:"name,omitempty"`
+	ID    string            `json:"id,omitempty"`
+	Name  string            `json:"name,omitempty"`
 	Title map[string]string `json:"title,omitempty"`
 }
 
 // TitleDetail is used by AdditionalTitles in Metadata.
 type TitleDetail struct {
-	Title string `json:"title,omitempty"`
+	Title    string `json:"title,omitempty"`
 	Encoding string `json:"en,omitempty"`
-	Type  *Type  `json:"type,omitempty"`
-	Lang  *Type  `json:"lang,omitempty"`
+	Type     *Type  `json:"type,omitempty"`
+	Lang     *Type  `json:"lang,omitempty"`
 }
 
 // Description holds additional descriptions in Metadata
