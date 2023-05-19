@@ -52,7 +52,7 @@ type Record struct {
 	// System-managed external persistent identifiers (DOI, Handles, OAI-PMH identifiers)
 	ExternalPIDs map[string]*PersistentIdentifier `json:"pids,omitempty"`
 	// Descriptive metadata for the resource
-	Metadata *Metadata `json:"metadata"`
+	Metadata *Metadata `json:"metadata,omitempty"`
 	// Associated files information.
 	Files *Files `json:"files,omitempty"`
 	// Access control for record
@@ -210,21 +210,21 @@ type Role struct {
 // PersonOrOrg holds either a person or corporate entity information
 // for the creators associated with the record.
 type PersonOrOrg struct {
-	ID   string `json:"cl_identifier,omitempty"` // The Caltech Library internal person or organizational identifier used to cross walk data across library systems. (this is not part of Invenion 3)
+	ID   string `json:"clpid,omitempty" yaml:"clpid,omitempty"` // The Caltech Library internal person or organizational identifier used to cross walk data across library systems. (this is not part of Invenion 3)
 	Type string `json:"type,omitempty"`          // The type of name. Either "personal" or "organizational".
 
-	GivenName  string `json:"given_name,omitempty" xml:"given_name,omitempty"`   // GivenName holds a peron's given name, e.g. Jane
-	FamilyName string `json:"family_name,omitempty" xml:"family_name,omitempty"` // FamilyName holds a person's family name, e.g. Doe
-	Name       string `json:"name,omitempty" xml:"name,omitempty"`               // Name holds a corporate name, e.g. The Unseen University
+	GivenName  string `json:"given_name,omitempty" xml:"given_name,omitempty" yaml:"given_name,omitempty"`   // GivenName holds a peron's given name, e.g. Jane
+	FamilyName string `json:"family_name,omitempty" xml:"family_name,omitempty" yaml:"family_name,omitempty"` // FamilyName holds a person's family name, e.g. Doe
+	Name       string `json:"name,omitempty" xml:"name,omitempty" yaml:"name,omitempty"`               // Name holds a corporate name, e.g. The Unseen University
 
 	// Identifiers holds a list of unique ID like ORCID, GND, ROR, ISNI
-	Identifiers []*Identifier `json:"identifier,omitempty"`
+	Identifiers []*Identifier `json:"identifier,omitempty" yaml:"identifier,omitempty"`
 
 	// Roles of the person or organization selected from a customizable controlled vocabularly.
 	//Role *Role `json:"role,omitempty"`
 
 	// Affiliations if `PersonOrOrg.Type` is personal.
-	Affiliations []*Affiliation `json:"affiliations,omitempty"`
+	Affiliations []*Affiliation `json:"affiliations,omitempty" yaml:"affiliations,omitempty"`
 }
 
 // Affiliation describes how a person or organization is affialated
@@ -245,6 +245,11 @@ type Identifier struct {
 	Identifier   string      `json:"identifier,omitempty" yaml:"identifier,omitempty"`
 	RelationType *TypeDetail `json:"relation_type,omitempty" yaml:"relation_type,omitempty"`
 	ResourceType *TypeDetail `json:"resource_type,omitempty" yaml:"resource_type,omitempty"`
+}
+
+func (identifier *Identifier) String() string {
+	src, _ := json.Marshal(identifier)
+	return fmt.Sprintf("%s", src)
 }
 
 // Type is an Invenio 3 e.g. ResourceType, title type or language
