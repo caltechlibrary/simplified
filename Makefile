@@ -97,6 +97,8 @@ about.md: .FORCE
 website: index.md about.md page.tmpl *.md LICENSE
 	make -f website.mak
 
+current_hash: .FORCE
+	git log --pretty=format:'%h' -n 1
 
 test: .FORCE
 	go test
