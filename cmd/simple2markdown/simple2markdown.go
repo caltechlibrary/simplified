@@ -7,7 +7,6 @@ import (
 	"io"
 	"os"
 	"path"
-	"strings"
 
 	// Caltech Library Packages
 	"github.com/caltechlibrary/simplified"
@@ -15,9 +14,9 @@ import (
 
 var (
 	helpText = `---
-title: "{app_name} (1) user manual"
+title: "{app_name} (1) user manual | {version} {release_hash}"
 author: "R. S. Doiel"
-pubDate: 2023-01-31
+pubDate: {release_date}
 ---
 
 # NAME
@@ -55,23 +54,28 @@ Markdown or HTML content.
 `
 )
 
-func fmtTxt(src string, appName string, version string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(src, "{app_name}", appName), "{version}", version)
-}
-
 func main() {
 	var (
 		showHelp bool
 		showLicense bool
 		showVersion bool
 
+		newline bool
+
 		err error
 	)
 	
 	appName := path.Base(os.Args[0])
+	// NOTE: the following are set when version.go is generated
+	version := simplified.Version
+	releaseDate := simplified.ReleaseDate
+	releaseHash := simplified.ReleaseHash
+	fmtHelp := simplified.FmtHelp
+
 	flag.BoolVar(&showHelp, "help", false, "display help")
 	flag.BoolVar(&showLicense, "license", false, "display license")
 	flag.BoolVar(&showVersion, "version", false, "display version")
+	flag.BoolVar(&newline, "newline", true, "add a tailing newline")
 	flag.Parse()
 
 	args := flag.Args()
@@ -81,15 +85,15 @@ func main() {
 	eout := os.Stderr
 
 	if showHelp {
-		fmt.Fprintf(out, "%s\n", fmtTxt(helpText, appName, simplified.Version))
+		fmt.Fprintf(out, "%s\n", fmtHelp(helpText, appName, version, releaseDate, releaseHash))
 		os.Exit(0)
 	}
 	if showLicense {
-		fmt.Fprintf(out, "%s\n", fmtTxt(simplified.LicenseText, appName, simplified.Version))
+		fmt.Fprintf(out, "%s\n", fmtHelp(simplified.LicenseText, appName, version, releaseDate, releaseHash))
 		os.Exit(0)
 	}
 	if showVersion {
-		fmt.Fprintf(out, "%s %s\n", appName, simplified.Version)
+		fmt.Fprintf(out, "%s %s %s\n", appName, version, releaseHash)
 		os.Exit(0)
 	}
 
@@ -126,6 +130,9 @@ func main() {
 		fmt.Fprintf(eout, "%s\n", err)
 		os.Exit(1)
 	}
-	fmt.Fprintf(out, "%s\n", record.AsMarkdown())
+	fmt.Fprintf(out, "%s", record.AsMarkdown())
+	if newline {
+		fmt.Fprintln(out)
+	}
 	os.Exit(0)
 }
