@@ -4,14 +4,14 @@ message: "If you use this software, please cite it as below."
 type: software
 title: "simplified"
 abstract: "A intermediate metadata model implemented as a Go package for
-migrating content from EPrints 3.3 to Invenio-RDM 11."
+migrating content from EPrints 3.3 to Invenio-RDM v11."
 authors:
   - family-names: Doiel
     given-names: R. S.
     orcid: "https://orcid.org/0000-0003-0900-6903"
 
 repository-code: "git+https://github.com/caltechlibrary/simplified"
-version: 0.0.2
+version: 0.0.12
 license-url: "https://spdx.org/licenses/BSD-3-Clause-LBNL"
 keywords: [ "library", "archives", "metadata" ]
 
@@ -20,7 +20,7 @@ keywords: [ "library", "archives", "metadata" ]
 About this software
 ===================
 
-## simplified 0.0.2
+## simplified 0.0.12
 
 ### Authors
 
@@ -28,7 +28,7 @@ About this software
 
 
 A intermediate metadata model implemented as a Go package for migrating
-content from EPrints 3.3 to Invenio-RDM 11.
+content from EPrints 3.3 to Invenio-RDM v11.
 
 ### Keywords
 
