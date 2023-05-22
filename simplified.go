@@ -594,3 +594,14 @@ func (m *Record) DiffAsJSON(t *Record) ([]byte, error) {
 	}
 	return src, nil
 }
+
+// HasAffiliation checks a Person record for a specific affiliation
+func HasAffiliation(person *Person, target *Affiliation) bool {
+	for _, affiliation := range person.Affiliations {
+		if (target.ID == affiliation.ID) && (target.Name == affiliation.Name) {
+			return true
+		}
+	}
+	
+	return false
+}

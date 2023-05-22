@@ -39,18 +39,14 @@ endif
 build: version.go $(PROGRAMS) CITATION.cff installer.sh
 
 version.go: .FORCE
-	@echo 'package $(PROJECT)' >version.go
-	@echo '' >>version.go
-	@echo 'const (' >>version.go
-	@echo '    Version = "$(VERSION)"' >>version.go
-	@echo '' >>version.go
-	@echo '    LicenseText = `' >>version.go
-	@cat LICENSE >>version.go
-	@echo '`' >>version.go
-	@echo ')' >>version.go
-	@echo '' >>version.go
-	-git add version.go
-	@if [ -f bin/codemeta ]; then ./bin/codemeta; fi
+	@echo '' | pandoc --from t2t --to plain \
+                --metadata-file codemeta.json \
+                --metadata package=$(PROJECT) \
+                --metadata version=$(VERSION) \
+                --metadata release_date=$(RELEASE_DATE) \
+                --metadata release_hash=$(RELEASE_HASH) \
+                --template codemeta-version-go.tmpl \
+                LICENSE >version.go
 
 $(PROGRAMS): $(PACKAGE)
 	@mkdir -p bin
@@ -69,6 +65,9 @@ CITATION.cff: .FORCE
 
 installer.sh: .FORCE
 	echo '' | pandoc -s --metadata title='Installer' --metadata-file codemeta.json --template codemeta-installer.tmpl >installer.sh
+
+hash: .FORCE
+	git log --pretty=format:'%h' -n 1
 
 # NOTE: macOS requires a "mv" command for placing binaries instead of "cp" due to signing process of compile
 install: build man
