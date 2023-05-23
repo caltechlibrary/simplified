@@ -59,6 +59,17 @@ type Record struct {
 	// Access control for record
 	RecordAccess *RecordAccess `json:"access,omitempty"`
 	// This is the place where RDM custom fields get mapped.
+	// Journal article support is done via CustomFields. E.g.
+	// ```
+	// "custom_fields": {
+    //     "journal:journal": {
+    //         "issue": "7",
+    //         "pages": "15-23",
+    //         "title": "Nature",
+    //         "volume": "645"
+    //     }
+    // },
+	// ```
 	CustomFields map[string]interface{} `json:"custom_fields,omitempty"`
 	// Tombstone (deasscession) information.
 	Tombstone *Tombstone `json:"tombstone,omitempty"`
