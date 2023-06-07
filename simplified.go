@@ -230,7 +230,7 @@ type PersonOrOrg struct {
 	Name       string `json:"name,omitempty" xml:"name,omitempty" yaml:"name,omitempty"`                      // Name holds a corporate name, e.g. The Unseen University
 
 	// Identifiers holds a list of unique ID like ORCID, GND, ROR, ISNI
-	Identifiers []*Identifier `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	Identifiers []*Identifier `json:"identifiers,omitempty" yaml:"identifiers,omitempty"`
 
 	// Roles of the person or organization selected from a customizable controlled vocabularly.
 	//Role *Role `json:"role,omitempty"`
