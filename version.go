@@ -6,7 +6,7 @@ import (
 
 const (
     // Version number of release
-    Version = "0.0.12"
+    Version = "0.0.13"
 
     // ReleaseDate, the date version.go was generated
     ReleaseDate = ""
