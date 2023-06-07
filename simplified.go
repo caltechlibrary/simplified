@@ -257,8 +257,6 @@ type Identifier struct {
 	Identifier   string      `json:"identifier,omitempty" yaml:"identifier,omitempty"`
 	RelationType *TypeDetail `json:"relation_type,omitempty" yaml:"relation_type,omitempty"`
 	ResourceType *TypeDetail `json:"resource_type,omitempty" yaml:"resource_type,omitempty"`
-	// Used in JSON mapping to RDM model.
-	Id string `json:"id,omitempty" yaml:"id,omitempty"`
 }
 
 func (identifier *Identifier) String() string {
