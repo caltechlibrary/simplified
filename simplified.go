@@ -295,10 +295,16 @@ type Description struct {
 // with in their set of field values.
 type Right struct {
 	ID          string       `json:"id,omitempty"`          // Identifier value
-	Title       *TitleDetail `json:"title,omitempty"`       // Localized human readable title e.g., `{"en": "The ACME Corporation License."}`.
-	Description *Description `json:"description,omitempty"` // Localized license description text e.g., `{"en":"This license ..."}`.
+	Title       *RightsTitle `json:"title,omitempty"`       // Localized human readable title e.g., `{"en": "The ACME Corporation License."}`.
+	Description *RightsDescription `json:"description,omitempty"` // Localized license description text e.g., `{"en":"This license ..."}`.
 	Link        string       `json:"link,omitempty"`        // Link to full license.
 }
+
+// RightTitle holds the map to the rights title
+type RightsTitle map[string]string
+
+// RightsDescription holds the map to the rights description
+type RightsDescription map[string]string
 
 // Subject element holds one of a list of subjects
 // in the Metadata element.

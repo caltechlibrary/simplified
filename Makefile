@@ -3,10 +3,15 @@
 #
 PROJECT = simplified
 
+GIT_GROUP = caltechlibrary
+
+RELEASE_DATE = $(shell date +%Y-%m-%d)
+
+RELEASE_HASH=$(shell git log --pretty=format:'%h' -n 1)
+
 VERSION = $(shell grep '"version":' codemeta.json | cut -d\"  -f 4)
 
 BRANCH = $(shell git branch | grep '* ' | cut -d\  -f 2)
-
 
 MAN_PAGES = simple2markdown.1 
 
@@ -64,7 +69,10 @@ CITATION.cff: .FORCE
 	if [ -f _codemeta.json ]; then rm _codemeta.json; fi
 
 installer.sh: .FORCE
-	echo '' | pandoc -s --metadata title='Installer' --metadata-file codemeta.json --template codemeta-installer.tmpl >installer.sh
+	@echo '' | pandoc --metadata title="Installer" --metadata git_org_or_person="$(GIT_GROUP)" --metadata-file codemeta.json --template codemeta-installer.tmpl >installer.sh
+	@chmod 775 installer.sh
+	@git add -f installer.sh
+
 
 hash: .FORCE
 	git log --pretty=format:'%h' -n 1
