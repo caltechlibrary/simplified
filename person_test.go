@@ -38,12 +38,14 @@ func TestPerson(t *testing.T) {
 			Scheme: `clpid`,
 		},
 	}
+	/*
 	p.Affiliations = []*Affiliation{
 		&Affiliation{
 			ID: `05dxps055`,
 			Name: `Caltech`,
 		},
 	}
+	*/
 
 	src, err := json.MarshalIndent(p, "", "    ")
 	if err != nil {
@@ -55,7 +57,6 @@ func TestPerson(t *testing.T) {
 		t.Error(err)
 	}
 	fmt.Fprintf(os.Stderr, "DEBUG src (yaml) ->\n%s\n\n", src)
-
 
 /* Identifier should format in YAML like
 

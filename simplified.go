@@ -207,9 +207,13 @@ type Embargo struct {
 
 // Creator of a record's object
 type Creator struct {
-	PersonOrOrg *PersonOrOrg `json:"person_or_org,omitempty"` // The person or organization.
-	Role        *Role        `json:"role,omitempty"`          // The role of the person or organization selected from a customizable controlled vocabularly.
-	//	Affiliations []*Affiliation `json:"affiliations,omitempty"`  // Affiliations if `PersonOrOrg.Type` is personal.
+	// The person or organization.
+	PersonOrOrg *PersonOrOrg `json:"person_or_org,omitempty"` 
+	// The role of the person or organization selected from a customizable controlled vocabularly.
+	Role        *Role        `json:"role,omitempty"`          
+	// Affiliations if `PersonOrOrg.Type` is personal.
+	// NOTE: this is at same level as PersonOrOrg, Role per irdmtools issue #27
+	Affiliations []*Affiliation `json:"affiliations,omitempty"`  
 }
 
 // Role is an object describing a relationship to authorship
@@ -233,10 +237,10 @@ type PersonOrOrg struct {
 	Identifiers []*Identifier `json:"identifiers,omitempty" yaml:"identifiers,omitempty"`
 
 	// Roles of the person or organization selected from a customizable controlled vocabularly.
-	//Role *Role `json:"role,omitempty"`
+	Role *Role `json:"role,omitempty"`
 
-	// Affiliations if `PersonOrOrg.Type` is personal.
-	Affiliations []*Affiliation `json:"affiliations,omitempty" yaml:"affiliations,omitempty"`
+	// Affiliations if `PersonOrOrg.Type` is personal. NOTE: moved up per irdmtools issue #27
+	//Affiliations []*Affiliation `json:"affiliations,omitempty" yaml:"affiliations,omitempty"`
 }
 
 // Affiliation describes how a person or organization is affialated
@@ -606,9 +610,9 @@ func (m *Record) DiffAsJSON(t *Record) ([]byte, error) {
 	return src, nil
 }
 
-// HasAffiliation checks a Person record for a specific affiliation
-func HasAffiliation(person *Person, target *Affiliation) bool {
-	for _, affiliation := range person.Affiliations {
+// HasAffiliation checks a PersonOrOrg record for a specific affiliation
+func HasAffiliation(creator *Creator, target *Affiliation) bool {
+	for _, affiliation := range creator.Affiliations {
 		if (target.ID == affiliation.ID) && (target.Name == affiliation.Name) {
 			return true
 		}

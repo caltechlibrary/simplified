@@ -12,7 +12,8 @@ type Person struct {
 	Family       string         `json:"family_name,omitempty" yaml:"family_name,omitempty"`
 	Given        string         `json:"given_name,omitempty" yaml:"given_name,omitempty"`
 	Identifiers  []*Identifier  `json:"identifiers,omitempty" yaml:"identifiers,omitempty"`
-	Affiliations []*Affiliation `json:"affiliations,omitempty" yaml:"affiliations,omitempty"`
+	// Affiliations are captured at the PersonOrOrg level in RDM
+	//Affiliations []*Affiliation `json:"affiliations,omitempty" yaml:"affiliations,omitempty"`
 }
 
 func (p *Person) GetIdentifier(scheme string) string {
