@@ -38,14 +38,12 @@ func TestPerson(t *testing.T) {
 			Scheme: `clpid`,
 		},
 	}
-	/*
 	p.Affiliations = []*Affiliation{
 		&Affiliation{
 			ID: `05dxps055`,
 			Name: `Caltech`,
 		},
 	}
-	*/
 
 	src, err := json.MarshalIndent(p, "", "    ")
 	if err != nil {
