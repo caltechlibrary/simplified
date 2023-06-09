@@ -62,13 +62,13 @@ type Record struct {
 	// Journal article support is done via CustomFields. E.g.
 	// ```
 	// "custom_fields": {
-    //     "journal:journal": {
-    //         "issue": "7",
-    //         "pages": "15-23",
-    //         "title": "Nature",
-    //         "volume": "645"
-    //     }
-    // },
+	//     "journal:journal": {
+	//         "issue": "7",
+	//         "pages": "15-23",
+	//         "title": "Nature",
+	//         "volume": "645"
+	//     }
+	// },
 	// ```
 	CustomFields map[string]interface{} `json:"custom_fields,omitempty"`
 	// Tombstone (deasscession) information.
@@ -208,12 +208,12 @@ type Embargo struct {
 // Creator of a record's object
 type Creator struct {
 	// The person or organization.
-	PersonOrOrg *PersonOrOrg `json:"person_or_org,omitempty"` 
+	PersonOrOrg *PersonOrOrg `json:"person_or_org,omitempty"`
 	// The role of the person or organization selected from a customizable controlled vocabularly.
-	Role        *Role        `json:"role,omitempty"`          
+	Role *Role `json:"role,omitempty"`
 	// Affiliations if `PersonOrOrg.Type` is personal.
 	// NOTE: this is at same level as PersonOrOrg, Role per irdmtools issue #27
-	Affiliations []*Affiliation `json:"affiliations,omitempty"`  
+	Affiliations []*Affiliation `json:"affiliations,omitempty"`
 }
 
 // Role is an object describing a relationship to authorship
@@ -298,10 +298,10 @@ type Description struct {
 // be supported at the same end point. I.e. they both must be unique
 // with in their set of field values.
 type Right struct {
-	ID          string       `json:"id,omitempty"`          // Identifier value
+	ID          string            `json:"id,omitempty"`          // Identifier value
 	Title       map[string]string `json:"title,omitempty"`       // Localized human readable title e.g., `{"en": "The ACME Corporation License."}`.
 	Description map[string]string `json:"description,omitempty"` // Localized license description text e.g., `{"en":"This license ..."}`.
-	Link        string       `json:"link,omitempty"`        // Link to full license.
+	Link        string            `json:"link,omitempty"`        // Link to full license.
 }
 
 // Subject element holds one of a list of subjects
@@ -612,12 +612,12 @@ func (m *Record) DiffAsJSON(t *Record) ([]byte, error) {
 
 // HasAffiliation checks a PersonOrOrg record for a specific affiliation
 func (creator *Creator) HasAffiliation(target *Affiliation) bool {
-	for _, affiliation := range creator.Affiliations {
-		if (target.ID == affiliation.ID) || (target.Name == affiliation.Name) {
-			return true
+	if creator.Affiliations != nil {
+		for _, affiliation := range creator.Affiliations {
+			if (target.ID == affiliation.ID) || (target.Name == affiliation.Name) {
+				return true
+			}
 		}
 	}
-	
 	return false
 }
-
