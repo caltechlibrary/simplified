@@ -612,7 +612,7 @@ func (m *Record) DiffAsJSON(t *Record) ([]byte, error) {
 
 // HasAffiliation checks a PersonOrOrg record for a specific affiliation
 func (creator *Creator) HasAffiliation(target *Affiliation) bool {
-	if creator == nil || target == nil {
+	if target == nil || creator == nil || creator.Affiliations == nil {
 		return false
 	}
 	for _, affiliation := range creator.Affiliations {
