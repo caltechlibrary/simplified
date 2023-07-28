@@ -149,6 +149,11 @@ type Entry struct {
 	MimeType     string `json:"mimetype,omitempty"`
 	Size         int    `json:"size,omitempty"`
 	CheckSum     string `json:"checksum,omitempty"`
+	Created      string `json:"created,omitempty"`
+	Updated      string `json:"updated,omitempty"`
+	Status       string `json:"status,omitempty"`
+	Metadata     map[string]interface{} `json:"metadata,omitempty"`
+	Links        map[srting]interface{} `json:"links,omitempty"`
 }
 
 type Location struct {
