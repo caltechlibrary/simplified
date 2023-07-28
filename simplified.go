@@ -131,7 +131,7 @@ type Metadata struct {
 // Files
 type Files struct {
 	Enabled        bool              `json:"enabled,omitempty"`
-	Entries        map[string]*Entry `json:"entries,omitempty"`
+	Entries        *Entry `json:"entries,omitempty"`
 	DefaultPreview string            `json:"default_preview,omitempty"`
 	Sizes          []string          `json:"sizes,omitempty"`
 	Formats        []string          `json:"formats,omitempty"`
