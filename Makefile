@@ -152,16 +152,11 @@ dist/Windows-arm64: .FORCE
 	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Windows-arm64.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
 	@rm -fR dist/bin
 
+# armv7l works for the Rasperry Pi OS 
 dist/Linux-armv7l: .FORCE
 	@mkdir -p dist/bin
 	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/$$FNAME.go; done
 	@cd dist && zip -r $(PROJECT)-v$(VERSION)-Linux-armv7l.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
-	@rm -fR dist/bin
-  
-dist/RaspberryPiOS-arm7:
-	@mkdir -p dist/bin
-	@for FNAME in $(PROGRAMS); do env GOOS=linux GOARCH=arm GOARM=7 go build -o dist/bin/$$FNAME cmd/$$FNAME/$$FNAME.go; done
-	@cd dist && zip -r $(PROJECT)-v$(VERSION)-RaspbianPiOS-arm7.zip LICENSE codemeta.json CITATION.cff *.md bin/* man/*
 	@rm -fR dist/bin
   
 distribute_docs:
@@ -173,7 +168,7 @@ distribute_docs:
 	cp -v INSTALL.md dist/
 	cp -vR man dist/
 
-release: build man CITATION.cff distribute_docs dist/Linux-x86_64 dist/Windows-x86_64 dist/Windows-arm64 dist/macOS-x86_64 dist/macOS-arm64 dist/RaspberryPiOS-arm7 dist/Linux-aarch64 dist/Linux-armv7l
+release: build man CITATION.cff distribute_docs dist/Linux-x86_64 dist/Windows-x86_64 dist/Windows-arm64 dist/macOS-x86_64 dist/macOS-arm64 dist/Linux-aarch64 dist/Linux-armv7l
 
 status:
 	git status
