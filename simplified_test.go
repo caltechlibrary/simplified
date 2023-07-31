@@ -168,21 +168,18 @@ func TestSimplifiedRecord(t *testing.T) {
         },
         "files": {
             "enabled": true,
-            "total_size": 1114324524355,
+            "total_bytes": 1114324524355,
             "count": 1,
-            "bucket": "81983514-22e5-473a-b521-24254bd5e049",
-            "default_preview": "big-dataset.zip",
             "order": ["big-dataset.zip"],
-            "entries": [
-                {
+            "entries": {
+				"big-dataset.zip": {
                     "checksum": "md5:234245234213421342",
                     "mimetype": "application/zip",
                     "size": 1114324524355,
                     "key": "big-dataset.zip",
                     "file_id": "445aaacd-9de1-41ab-af52-25ab6cb93df7"
                 }
-            ],
-            "meta": {"big-dataset.zip": {"description": "File containing the data."}}
+			}
         },
         "notes": ["Under investigation for copyright infringement."]
     }`)

@@ -1,13 +1,13 @@
 package simplified
 
 import (
-	"encoding/json"
-	"fmt"
-	"os"
+	//"encoding/json"
+	//"fmt"
+	//"os"
 	"testing"
 
 	// 3rd Party Packages
-	"gopkg.in/yaml.v3"
+	//"gopkg.in/yaml.v3"
 )
 
 func TestPerson(t *testing.T) {
@@ -45,16 +45,18 @@ func TestPerson(t *testing.T) {
 		},
 	}
 
+	/*
 	src, err := json.MarshalIndent(p, "", "    ")
 	if err != nil {
 		t.Error(err)
 	}
-	//fmt.Fprintf(os.Stderr, "DEBUG src (json) ->\n%s\n\n", src)
+	fmt.Fprintf(os.Stderr, "DEBUG src (json) ->\n%s\n\n", src)
 	src, err = yaml.Marshal(p)
 	if err != nil {
 		t.Error(err)
 	}
-	//fmt.Fprintf(os.Stderr, "DEBUG src (yaml) ->\n%s\n\n", src)
+	fmt.Fprintf(os.Stderr, "DEBUG src (yaml) ->\n%s\n\n", src)
+	*/
 
 /* Identifier should format in YAML like
 
