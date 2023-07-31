@@ -134,11 +134,12 @@ type Files struct {
 	Entries        map[string]*Entry `json:"entries,omitempty"`
 	TotalBytes     int               `json:"total_bytes,omitempty"`
 	Count          int               `json:"count,omitempty"`
-	//Formats        []string          `json:"formats,omitempty"`
-	//Order          []string          `json:"order,omitempty"`
-	//Locations      *Location         `json:"locations,omitempty"`
-	//DefaultPreview string            `json:"default_preview,omitempty"`
-	//Sizes          []string          `json:"sizes,omitempty"`
+	// FIXME: This fields may not make sense in RDM 11
+	Formats        []string          `json:"formats,omitempty"`
+	Order          []string          `json:"order,omitempty"`
+	Locations      *Location         `json:"locations,omitempty"`
+	DefaultPreview string            `json:"default_preview,omitempty"`
+	Sizes          []string          `json:"sizes,omitempty"`
 }
 
 type Entry struct {
