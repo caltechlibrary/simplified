@@ -238,7 +238,41 @@ func TestSimplifiedRecord(t *testing.T) {
 }
 
 func TestSimplifiedFiles(t *testing.T) {
+	/*
 	src := []byte(`{"enabled": true, "links": {"self": "https://authors.caltechlibrary.dev/api/records/v3szs-vn773/files", "archive": "https://authors.caltechlibrary.dev/api/records/v3szs-vn773/files-archive"}, "entries": [{"updated": "2023-07-13T00:15:29.869760+00:00", "size": 7076180, "file_id": "64383771-75c2-4e00-9b84-06ffbe3774af", "status": "completed", "key": "jcb_202212007.pdf", "mimetype": "application/pdf", "links": {"self": "https://authors.caltechlibrary.dev/api/records/v3szs-vn773/files/jcb_202212007.pdf", "content": "https://authors.caltechlibrary.dev/api/records/v3szs-vn773/files/jcb_202212007.pdf/content"}, "version_id": "10f0b6c1-9bed-472c-b2eb-090f4ae207f5", "created": "2023-07-13T00:15:29.867026+00:00", "bucket_id": "ceac4045-ebe3-415f-9b56-2849002212c7", "checksum": "md5:ae98c6b97e989fb3a19d2dfd33abf778", "metadata": null, "storage_class": "L"}, {"updated": "2023-07-13T00:15:29.874834+00:00", "size": 6248996, "file_id": "eb99d17f-8bcc-4733-ba73-f4c618526037", "status": "completed", "key": "jcb_202212007_sourcedataf1.pdf", "mimetype": "application/pdf", "links": {"self": "https://authors.caltechlibrary.dev/api/records/v3szs-vn773/files/jcb_202212007_sourcedataf1.pdf", "content": "https://authors.caltechlibrary.dev/api/records/v3szs-vn773/files/jcb_202212007_sourcedataf1.pdf/content"}, "version_id": "705aff0d-7b7d-4c3e-978a-896543641b01", "created": "2023-07-13T00:15:29.872416+00:00", "bucket_id": "ceac4045-ebe3-415f-9b56-2849002212c7", "checksum": "md5:14a92692ad011f8b126b22b65c875e25", "metadata": null, "storage_class": "L"}, {"updated": "2023-07-13T00:15:29.879525+00:00", "size": 16592, "file_id": "287470c0-1a3e-4da6-8b9b-e6a3163a3b66", "status": "completed", "key": "jcb_202212007_tables1.docx", "mimetype": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "links": {"self": "https://authors.caltechlibrary.dev/api/records/v3szs-vn773/files/jcb_202212007_tables1.docx", "content": "https://authors.caltechlibrary.dev/api/records/v3szs-vn773/files/jcb_202212007_tables1.docx/content"}, "version_id": "703bc259-083b-4afe-921d-d76e30f5051f", "created": "2023-07-13T00:15:29.877297+00:00", "bucket_id": "ceac4045-ebe3-415f-9b56-2849002212c7", "checksum": "md5:76a7e4da98915de9be75a5c60807b5ec", "metadata": null, "storage_class": "L"}], "default_preview": null, "order": []}`)
+	*/
+	src := []byte(`{
+  "enabled": true,
+  "entries": {
+    "Goodtimebanjo-banjores-resun-rescov-guit-same-force-same-percent.mp3": {
+      "key": "Goodtimebanjo-banjores-resun-rescov-guit-same-force-same-percent.mp3",
+      "mimetype": "audio/mpeg",
+      "size": 29635
+    },
+    "Vegabanjo-banjores-resun-rescov-guitar-undamped.mp3": {
+      "key": "Vegabanjo-banjores-resun-rescov-guitar-undamped.mp3",
+      "mimetype": "audio/mpeg",
+      "size": 363922
+    },
+    "all-5-takes-adjusted.mp3": {
+      "key": "all-5-takes-adjusted.mp3",
+      "mimetype": "audio/mpeg",
+      "size": 2998517
+    },
+    "goodtime-banjores-uncovered-covered-guitar-1st-only-12th-fret-all-damped-but-1.mp3": {
+      "key": "goodtime-banjores-uncovered-covered-guitar-1st-only-12th-fret-all-damped-but-1.mp3",
+      "mimetype": "audio/mpeg",
+      "size": 358875
+    },
+    "resonator-guitar.pdf": {
+      "key": "resonator-guitar.pdf",
+      "mimetype": "application/pdf",
+      "size": 12166506
+    }
+  },
+  "total_bytes": 15917455,
+  "count": 5
+}`)
 	obj := new(Entry)
 	if err := json.Unmarshal(src, &obj); err != nil {
 		t.Error(err)

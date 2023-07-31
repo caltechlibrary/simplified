@@ -49,12 +49,12 @@ func TestPerson(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Fprintf(os.Stderr, "DEBUG src (json) ->\n%s\n\n", src)
+	//fmt.Fprintf(os.Stderr, "DEBUG src (json) ->\n%s\n\n", src)
 	src, err = yaml.Marshal(p)
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Fprintf(os.Stderr, "DEBUG src (yaml) ->\n%s\n\n", src)
+	//fmt.Fprintf(os.Stderr, "DEBUG src (yaml) ->\n%s\n\n", src)
 
 /* Identifier should format in YAML like
 

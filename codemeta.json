@@ -9,7 +9,7 @@
   "name": "simplified",
   "description": "A intermediate metadata model implemented as a Go package for migrating content from EPrints 3.3 to Invenio-RDM v11.",
   "developmentStatus": "concept",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "isPartOf": "https://github.com/caltechlibrary/simplified",
   "keywords": [
     "library",
