@@ -131,12 +131,14 @@ type Metadata struct {
 // Files
 type Files struct {
 	Enabled        bool              `json:"enabled,omitempty"`
-	Entries        []*Entry          `json:"entries,omitempty"`
-	DefaultPreview string            `json:"default_preview,omitempty"`
-	Sizes          []string          `json:"sizes,omitempty"`
-	Formats        []string          `json:"formats,omitempty"`
-	Order          []string          `json:"order,omitempty"`
-	Locations      *Location         `json:"locations,omitempty"`
+	Entries        map[string]*Entry `json:"entries,omitempty"`
+	TotalBytes     int               `json:"total_bytes,omitempty"`
+	Count          int               `json:"count,omitempty"`
+	//Formats        []string          `json:"formats,omitempty"`
+	//Order          []string          `json:"order,omitempty"`
+	//Locations      *Location         `json:"locations,omitempty"`
+	//DefaultPreview string            `json:"default_preview,omitempty"`
+	//Sizes          []string          `json:"sizes,omitempty"`
 }
 
 type Entry struct {
