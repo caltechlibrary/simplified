@@ -128,7 +128,7 @@ type Metadata struct {
 	Funding []*Funder `json:"funding,omitempty"`
 }
 
-// Files
+// Files, used in RDM for posting full record info.
 type Files struct {
 	Enabled        bool              `json:"enabled,omitempty"`
 	Entries        map[string]*Entry `json:"entries,omitempty"`
@@ -141,6 +141,22 @@ type Files struct {
 	DefaultPreview string            `json:"default_preview,omitempty"`
 	Sizes          []string          `json:"sizes,omitempty"`
 }
+
+// FileListing, used in RDM for the /api/records/{record_id}/files result.
+type FileListing struct {
+	Enabled        bool              `json:"enabled,omitempty"`
+	Links          map[string]interface{} `json:"links,omitempty"`
+	Entries        []*Entry          `json:"entries,omitempty"`
+	TotalBytes     int               `json:"total_bytes,omitempty"`
+	Count          int               `json:"count,omitempty"`
+	// FIXME: This fields may not make sense in RDM 11
+	Formats        []string          `json:"formats,omitempty"`
+	Order          []string          `json:"order,omitempty"`
+	Locations      *Location         `json:"locations,omitempty"`
+	DefaultPreview string            `json:"default_preview,omitempty"`
+	Sizes          []string          `json:"sizes,omitempty"`
+}
+
 
 type Entry struct {
 	BucketID     string `json:"bucket_id,omitempty"`
