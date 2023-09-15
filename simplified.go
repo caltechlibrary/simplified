@@ -345,6 +345,8 @@ type DateType struct {
 // Funder holds funding information for funding organizations in Metadata
 type Funder struct {
 	Funder    *Identifier      `json:"funder,omitempty"`
+	// ID is the ROR for the funding agency if available.
+	ID        string           `json:"id,omitempty"`
 	Award     *AwardIdentifier `json:"award,omitempty"`
 	Reference []*Identifier    `json:"references,omitempty"`
 }
