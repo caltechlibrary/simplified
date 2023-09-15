@@ -283,6 +283,8 @@ type Identifier struct {
 	Title        string      `json:"title,omitempty" yaml:"title,omitempty"`
 	Number       string      `json:"number,omitempty" yaml:"number,omitempty"`
 	Identifier   string      `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	// ID holds an identifier, e.g. ROR in funder ... It's a shame it duplicates Identifier ...
+	ID           string      `json:"id,omitempty" yaml:"id,omitempty"`
 	RelationType *TypeDetail `json:"relation_type,omitempty" yaml:"relation_type,omitempty"`
 	ResourceType *TypeDetail `json:"resource_type,omitempty" yaml:"resource_type,omitempty"`
 }
@@ -344,12 +346,24 @@ type DateType struct {
 
 // Funder holds funding information for funding organizations in Metadata
 type Funder struct {
-	Funder    *Identifier      `json:"funder,omitempty"`
-	// ID is the ROR for the funding agency if available.
-	ID        string           `json:"id,omitempty"`
-	Award     *AwardIdentifier `json:"award,omitempty"`
-	Reference []*Identifier    `json:"references,omitempty"`
+	Funder    *FunderIdentifier `json:"funder,omitempty"`
+	Award     *AwardIdentifier  `json:"award,omitempty"`
+	Reference []*Identifier     `json:"references,omitempty"`
 }
+
+// FunderIdentifier holds an Identifier, e.g. ORCID, ROR, ISNI, GND
+// for a person for organization it holds GRID, ROR. etc.
+type FunderIdentifier struct {
+	Scheme       string      `json:"scheme,omitempty" yaml:"scheme,omitempty"`
+	Name         string      `json:"name,omitempty" yaml:"name,omitempty"`
+	Title        string      `json:"title,omitempty" yaml:"title,omitempty"`
+	Number       string      `json:"number,omitempty" yaml:"number,omitempty"`
+	// Identifier, ie. . ROR in funder ... It's a shame it the JSON doesn't line up and duplicates Identifier ...
+	Identifier   string      `json:"id,omitempty" yaml:"id,omitempty"`
+	RelationType *TypeDetail `json:"relation_type,omitempty" yaml:"relation_type,omitempty"`
+	ResourceType *TypeDetail `json:"resource_type,omitempty" yaml:"resource_type,omitempty"`
+}
+
 
 type AwardIdentifier struct {
 	Scheme       string       `json:"scheme,omitempty"`
