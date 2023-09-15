@@ -358,7 +358,7 @@ type FunderIdentifier struct {
 	Name         string      `json:"name,omitempty" yaml:"name,omitempty"`
 	Title        string      `json:"title,omitempty" yaml:"title,omitempty"`
 	Number       string      `json:"number,omitempty" yaml:"number,omitempty"`
-	// Identifier, ie. . ROR in funder ... It's a shame it the JSON doesn't line up and duplicates Identifier ...
+	// Identifier, i.e. ROR. NOTE: It's a shame it the JSON doesn't line up with Identifier, it need to use "id" instead of "identiifer" as in .Identifier ...
 	Identifier   string      `json:"id,omitempty" yaml:"id,omitempty"`
 	RelationType *TypeDetail `json:"relation_type,omitempty" yaml:"relation_type,omitempty"`
 	ResourceType *TypeDetail `json:"resource_type,omitempty" yaml:"resource_type,omitempty"`
