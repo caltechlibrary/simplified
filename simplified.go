@@ -100,6 +100,7 @@ type PersistentIdentifier struct {
 // RecordAccess implements a datastructure used by Invenio 3 to
 // control record level accesss, e.g. in the REST API.
 type RecordAccess struct {
+	Status string `json:"status,omitempty"` // Status is "open" for public records, not sure other values
 	Record  string   `json:"record,omitempty"`  // "public" or "restricted. Read access to the record.
 	Files   string   `json:"files,omitempty"`   // "public" or "restricted". Read access to the record's files.
 	Embargo *Embargo `json:"embargo,omitempty"` // Embargo options for the record.
