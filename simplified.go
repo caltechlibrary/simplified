@@ -88,6 +88,12 @@ type Record struct {
 type RecordIdentifier struct {
 	ID     string  `json:"id"`               // The identifier of the parent record
 	Access *Access `json:"access,omitempty"` // Access details for the record as a whole
+	Communities *Community `json:"communities,omitempty"` // Holds community identifier(s)
+}
+
+type Community struct {
+	IDs []string `json:"ids,omitempty"`
+	Default string `json:"default,omitempty"`
 }
 
 // PersistentIdentifier holds an Identifier, e.g. ORCID, ROR, ISNI, GND
