@@ -74,11 +74,13 @@ type Record struct {
 	// Tombstone (deasscession) information.
 	Tombstone *Tombstone `json:"tombstone,omitempty"`
 	// create time for record
-	//Created time.Time `json:"created,omitempty"`
-	Created string `json:"created,omitempty"`
+	Created time.Time `json:"created,omitempty"`
 	// modified time for record
-	//Updated time.Time `json:"updated,omitempty"`
-	Updated string `json:"updated,omitempty"`
+	Updated time.Time `json:"updated,omitempty"`
+
+	// DEBUGING: Test if string value.
+	//Created string `json:"created,omitempty"`
+	//Updated string `json:"updated,omitempty"`
 }
 
 //
@@ -616,7 +618,6 @@ func (rec *Record) Diff(t *Record) (*Record, *Record) {
 		oR.Tombstone = rec.Tombstone
 		nR.Tombstone = t.Tombstone
 	}
-	/*
 	if rec.Created.Compare(t.Created) != 0 {
 		oR.Created = rec.Created
 		nR.Created = t.Created
@@ -625,7 +626,7 @@ func (rec *Record) Diff(t *Record) (*Record, *Record) {
 		oR.Updated = rec.Updated
 		nR.Updated = t.Updated
 	}
-	*/
+	/*DEBUGGING test as string values
 	if strings.Compare(rec.Created, t.Created) != 0 {
 		oR.Created = rec.Created
 		nR.Created = t.Created
@@ -634,6 +635,7 @@ func (rec *Record) Diff(t *Record) (*Record, *Record) {
 		oR.Updated = rec.Updated
 		nR.Updated = t.Updated
 	}
+	*/
 	return oR, nR
 }
 
