@@ -74,9 +74,9 @@ type Record struct {
 	// Tombstone (deasscession) information.
 	Tombstone *Tombstone `json:"tombstone,omitempty"`
 	// create time for record
-	Created time.Time `json:"created"`
+	Created time.Time `json:"created,omitempty"`
 	// modified time for record
-	Updated time.Time `json:"updated"`
+	Updated time.Time `json:"updated,omitempty"`
 }
 
 //
