@@ -626,16 +626,6 @@ func (rec *Record) Diff(t *Record) (*Record, *Record) {
 		oR.Updated = rec.Updated
 		nR.Updated = t.Updated
 	}
-	/*DEBUGGING test as string values
-	if strings.Compare(rec.Created, t.Created) != 0 {
-		oR.Created = rec.Created
-		nR.Created = t.Created
-	}
-	if strings.Compare(rec.Updated, t.Updated) != 0 {
-		oR.Updated = rec.Updated
-		nR.Updated = t.Updated
-	}
-	*/
 	return oR, nR
 }
 
