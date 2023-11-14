@@ -188,6 +188,10 @@ func TestSimplifiedRecord(t *testing.T) {
 		t.Errorf("Unmarshal failed, %s", err)
 		t.FailNow()
 	}
+	if simpleRecord1.ExternalPIDs == nil {
+		t.Errorf("Expected unmarshaled record to have pids -> %s", example1Text)
+		t.FailNow()
+	}
 	simpleRecord2 := new(Record)
 	if err := json.Unmarshal(example1Text, &simpleRecord2); err != nil {
 		t.Errorf("Unmarshal failed, %s", err)

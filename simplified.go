@@ -46,9 +46,6 @@ type Record struct {
 	// Interneral persistent identifier for a specific version.
 	ID string `json:"id,omitempty"`
 
-	// Pids holds internal identifiers, e.g. DOI, OAI
-	Pids    map[string]interface{} `json:"pids,omitempty"` // Persistent Interneral Identifiers
-
 	// The internal persistent identifier for ALL versions.
 	Parent *RecordIdentifier `json:"parent,omitempty"`
 	// System-managed external persistent identifiers (DOI, Handles, OAI-PMH identifiers)
