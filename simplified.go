@@ -46,7 +46,8 @@ type Record struct {
 	// Interneral persistent identifier for a specific version.
 	ID string `json:"id,omitempty"`
 
-	//PID    map[string]interface{} `json:"pid,omitempty"` // Interneral persistent identifier for a specific version.
+	// PID holds internal identifiers, either a DOI or OAI id is most likely.
+	PID    map[string]interface{} `json:"pid,omitempty"` // Interneral persistent identifier for a specific version.
 
 	// The internal persistent identifier for ALL versions.
 	Parent *RecordIdentifier `json:"parent,omitempty"`
