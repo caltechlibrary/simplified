@@ -54,7 +54,7 @@ type Record struct {
 	Metadata *Metadata `json:"metadata,omitempty"`
 	// Associated files information.
 	Files *Files `json:"files,omitempty"`
-	// Access control for record
+	// Access control for record, if access.status is "restricted" it is NOT a public record.
 	RecordAccess *RecordAccess `json:"access,omitempty"`
 	// This is the place where RDM custom fields get mapped.
 	// Journal article support is done via CustomFields. E.g.
