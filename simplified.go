@@ -242,7 +242,7 @@ type Embargo struct {
 type Creator struct {
 	// The person or organization.
 	PersonOrOrg *PersonOrOrg `json:"person_or_org,omitempty"`
-	// The role of the person or organization selected from a customizable controlled vocabularly.
+	// The role of the person or organization selected from a customizable controlled vocabular.
 	Role *Role `json:"role,omitempty"`
 	// Affiliations if `PersonOrOrg.Type` is personal.
 	// NOTE: this is at same level as PersonOrOrg, Role per irdmtools issue #27
@@ -269,7 +269,7 @@ type PersonOrOrg struct {
 	// Identifiers holds a list of unique ID like ORCID, GND, ROR, ISNI
 	Identifiers []*Identifier `json:"identifiers,omitempty" yaml:"identifiers,omitempty"`
 
-	// Roles of the person or organization selected from a customizable controlled vocabularly.
+	// Roles of the person or organization selected from a customizable controlled vocabular.
 	Role *Role `json:"role,omitempty"`
 
 	// Affiliations if `PersonOrOrg.Type` is personal. NOTE: moved up per irdmtools issue #27
