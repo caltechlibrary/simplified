@@ -19,7 +19,7 @@ $(HTML_PAGES): $(MD_PAGES) index.html .FORCE
 	if [ "$@" = "README.html" ]; then cp README.html index.html; git add index.html; fi
 
 pagefind: .FORCE
-	pagefind --verbose --exclude-selectors="nav,header,footer" --bundle-dir ./pagefind --source .
+	pagefind --verbose --exclude-selectors="nav,header,footer" --site .
 	git add pagefind
 
 clean:

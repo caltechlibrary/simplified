@@ -11,7 +11,7 @@ authors:
     orcid: "https://orcid.org/0000-0003-0900-6903"
 
 repository-code: "git+https://github.com/caltechlibrary/simplified"
-version: 0.0.22
+version: 0.0.23
 license-url: "https://spdx.org/licenses/BSD-3-Clause-LBNL"
 keywords: [ "library", "archives", "metadata" ]
 
@@ -20,7 +20,7 @@ keywords: [ "library", "archives", "metadata" ]
 About this software
 ===================
 
-## simplified 0.0.22
+## simplified 0.0.23
 
 ### Authors
 
