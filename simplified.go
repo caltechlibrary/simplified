@@ -79,11 +79,19 @@ type Record struct {
 	// DEBUGING: Test if string value.
 	//Created string `json:"created,omitempty"`
 	//Updated string `json:"updated,omitempty"`
+	Versions *RecordVersions `json:"versions,omitempty"`
 }
 
 //
 // Second level Elements
 //
+
+// RecordVersions holds the version states for RDM structured records.
+type RecordVersions struct {
+	IsLatest bool `json:"is_latest,omitempty"`
+	IsLatestDraft bool `json:"is_latest_draft,omitempty"`
+	Index int `json:"index,omitempty"`
+}
 
 // RecordIdentifier implements the scheme of "parent", a persistant
 // identifier to the record.
