@@ -1,45 +1,44 @@
 {
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
-  "@type": "SoftwareSourceCode",
-  "license": "https://spdx.org/licenses/BSD-3-Clause-LBNL",
+  "type": "SoftwareSourceCode",
   "codeRepository": "git+https://github.com/caltechlibrary/simplified",
-  "dateCreated": "2023-01-30",
-  "dateReleased": "2023-09-29",
-  "dateModified": "2024-04-01",
-  "issueTracker": "git+https://github.com/caltechlibrary/simplified/issues",
-  "name": "simplified",
-  "description": "A intermediate metadata model implemented as a Go package for migrating content from EPrints 3.3 to Invenio-RDM v11.",
-  "developmentStatus": "concept",
-  "releaseNotes": "Added missing versions attribute to Record struct",
-  "version": "0.0.23",
-  "isPartOf": "https://github.com/caltechlibrary/simplified",
-  "keywords": [
-    "library",
-    "archives",
-    "metadata"
-  ],
-  "programmingLanguage": [
-    "Go"
-  ],
-  "operatingSystem": [
-    "Linux",
-    "Windows",
-    "macOS"
-  ],
-  "softwareRequirements": [
-    "Go >= v1.20.1"
-  ],
   "author": [
     {
-      "@type": "Person",
+      "id": "https://orcid.org/0000-0003-0900-6903",
+      "type": "Person",
       "givenName": "R. S.",
       "familyName": "Doiel",
       "affiliation": {
         "@type": "Organization",
         "name": "Caltech Library"
       },
-      "email": "rsdoiel@caltech.edu",
-      "@id": "https://orcid.org/0000-0003-0900-6903"
+      "email": "rsdoiel@caltech.edu"
     }
-  ]
+  ],
+  "dateCreated": "2023-01-30",
+  "dateModified": "2025-09-16",
+  "datePublished": "2025-09-16",
+  "description": "A intermediate metadata model implemented as a Go package for migrating content from EPrints 3.3 to Invenio-RDM v11.",
+  "keywords": [
+    "library",
+    "archives",
+    "metadata"
+  ],
+  "name": "simplified",
+  "license": "https://spdx.org/licenses/BSD-3-Clause-LBNL",
+  "operatingSystem": [
+    "Linux",
+    "Windows",
+    "macOS"
+  ],
+  "programmingLanguage": [
+    "Go"
+  ],
+  "softwareRequirements": [
+    "Go >= v1.20.1"
+  ],
+  "version": "0.0.24",
+  "developmentStatus": "concept",
+  "issueTracker": "git+https://github.com/caltechlibrary/simplified/issues",
+  "releaseNotes": "Fixed logic in HasAffiliation. The target ID and Name must be none empty strings before comparing.\nThis is related to issue #82 in irdmtools."
 }
