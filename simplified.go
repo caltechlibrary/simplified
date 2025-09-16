@@ -673,7 +673,7 @@ func (creator *Creator) HasAffiliation(target *Affiliation) bool {
 		return false
 	}
 	for _, affiliation := range creator.Affiliations {
-		if (target.ID == affiliation.ID) {
+		if (target.ID != "" && target.ID == affiliation.ID) {
 			return true
 		} 
 		if (target.Name != "" && target.Name == affiliation.Name) {
