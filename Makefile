@@ -96,12 +96,7 @@ index.md: .FORCE
 	cp README.md index.md
 	git add index.md
 
-about.md: .FORCE
-	cat codemeta.json | sed -E 's/"@context"/"at__context"/g;s/"@type"/"at__type"/g;s/"@id"/"at__id"/g' >_codemeta.json
-	if [ -f $(PANDOC) ]; then echo "" | pandoc --metadata title="About $(PROJECT)" --metadata-file=_codemeta.json --template codemeta-md.tmpl >about.md; fi
-	if [ -f _codemeta.json ]; then rm _codemeta.json; fi
-
-website: index.md about.md page.tmpl *.md LICENSE
+website: index.md page.tmpl *.md LICENSE
 	make -f website.mak
 
 current_hash: .FORCE
@@ -179,8 +174,5 @@ status:
 save:
 	@if [ "$(msg)" != "" ]; then git commit -am "$(msg)"; else git commit -am "Quick Save"; fi
 	git push origin $(BRANCH)
-
-publish: website
-	./publish.bash
 
 .FORCE:
